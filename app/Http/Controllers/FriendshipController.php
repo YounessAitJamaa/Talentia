@@ -34,4 +34,9 @@ class FriendshipController extends Controller
 
         return back()->with('status', 'Une demande est déjà en cours.');
     }
+
+
+    public function acceptRequest() {
+        
+    }
 }
