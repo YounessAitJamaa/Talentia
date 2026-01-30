@@ -83,9 +83,18 @@
                                     {{ $u->profile?->bio ?? 'Aucune biographie disponible pour le moment.' }}
                                 </p>
 
-                                <a href="{{ route('profile.show', $u->id) }}" class="inline-flex items-center justify-center w-full px-4 py-2 border-2 border-indigo-600 text-indigo-600 font-semibold rounded-lg hover:bg-indigo-600 hover:text-white transition duration-200 text-sm">
-                                    Voir le profil
-                                </a>
+                                <div class="mt-4 flex flex-col gap-2">
+                                    <a href="{{ route('profile.show', $u->id) }}" class="text-sm font-semibold text-gray-600 hover:text-indigo-600 border border-gray-300 py-2 rounded-lg text-center transition">
+                                        Voir le profil
+                                    </a>
+
+                                    <form action="{{ route('friendship.send', $u->id) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="w-full bg-indigo-600 text-white text-sm font-bold py-2 rounded-lg hover:bg-indigo-700 shadow-sm transition">
+                                            Se connecter
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
                         @empty
                             <div class="col-span-full py-12 text-center bg-white rounded-xl border border-dashed border-gray-300">
