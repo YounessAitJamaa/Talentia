@@ -63,6 +63,13 @@
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                         @forelse($users as $u)
+                            @php
+                                $isFriend = \App\Models\Friendship::where(function($q) use ($u) {
+                                    $q->where('user_id', auth()->id())->where('friend_id', $u->id);
+                                })->orWhere(function($q) use ($u) {
+                                    $q->where('user_id', $u->id)->where('friend_id', auth()->id());
+                                })->where('status', 'accepted')->exists();
+                            @endphp
                             <div class="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-lg transition-shadow duration-300 relative group text-center">
                                 <span class="absolute top-3 right-3 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider {{ $u->role === 'recruteur' ? 'bg-green-100 text-green-700' : 'bg-blue-100 text-blue-700' }}">
                                     {{ $u->role }}
@@ -87,13 +94,17 @@
                                     <a href="{{ route('profile.show', $u->id) }}" class="text-sm font-semibold text-gray-600 hover:text-indigo-600 border border-gray-300 py-2 rounded-lg text-center transition">
                                         Voir le profil
                                     </a>
-
+                                
+                                @if(!$isFriend)
                                     <form action="{{ route('friendship.send', $u->id) }}" method="POST">
                                         @csrf
                                         <button type="submit" class="w-full bg-indigo-600 text-white text-sm font-bold py-2 rounded-lg hover:bg-indigo-700 shadow-sm transition">
                                             Se connecter
                                         </button>
                                     </form>
+                                @else
+                                    <span class="text-xs font-bold text-green-600 uppercase tracking-widest mt-2">✓ Déjà connecté</span>
+                                @endif
                                 </div>
                             </div>
                         @empty
