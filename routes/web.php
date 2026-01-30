@@ -21,8 +21,6 @@ Route::get('/profile/{id}', function ($id) {
 })->middleware(['auth'])->name('profile.show');
 
 
-
-
 Route::middleware('auth')->group(function () {
     Route::post('/friendship/send/{id}', [FriendshipController::class, 'sendRequest'])->name('friendship.send');
     Route::post('/friendship/accept/{id}', [FriendshipController::class, 'acceptRequest'])->name('friendship.accept');
