@@ -6,11 +6,6 @@
                 <a href="{{ route('dashboard') }}" class="flex items-center">
                     <span class="text-2xl font-extrabold text-indigo-600">Connect<span class="text-gray-900">Hub</span></span>
                 </a>
-                <div class="hidden md:flex space-x-4">
-                    <a href="{{ route('dashboard') }}" class="text-sm font-medium text-gray-700 hover:text-indigo-600 {{ request()->routeIs('dashboard') ? 'border-b-2 border-indigo-600' : '' }}">
-                        Réseau
-                    </a>
-                </div>
             </div>
 
          <!--    <div class="hidden sm:block flex-1 max-w-xs px-4">
@@ -24,7 +19,6 @@
             </div> -->
 
             @php
-                // On compte les demandes reçues par l'utilisateur connecté
                 $pendingCount = \App\Models\Friendship::where('friend_id', auth()->id())
                                 ->where('status', 'pending')
                                 ->count();
