@@ -9,6 +9,18 @@ use Illuminate\Http\Request;
 
 class FriendshipController extends Controller
 {
+
+    public function index()
+    {
+        $invitations = Friendship::where('friend_id', Auth::id())
+            ->where('status', 'pending')
+            ->with('sender.profile')
+            ->get();
+
+        return view('friendships.index', compact('invitations'));
+    }
+
+
     public function sendRequest($friendId) 
     {
         $userId = Auth::id();
@@ -37,6 +49,6 @@ class FriendshipController extends Controller
 
 
     public function acceptRequest() {
-        
+
     }
 }
