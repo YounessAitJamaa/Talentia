@@ -48,7 +48,17 @@ class FriendshipController extends Controller
     }
 
 
-    public function acceptRequest() {
+    public function acceptRequest($id) {
 
+        $friendship = Friendship::where('id', $id)
+                ->where('friend_id', Auth::id())
+                ->where('status', 'pending')
+                ->firstOrFail();
+
+        $friendship->update([
+            'status' => 'accepted'
+        ]);
+
+        return back()->with('status', 'Connexion acceptée ! Vous faites maintenant partie du même réseau.');
     }
 }
