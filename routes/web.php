@@ -5,13 +5,16 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Controllers\FriendshipController;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
 Route::get('/dashboard', function (Request $request) {
-    $users = User::all();
+    
+    $users = User::where('id', '!=', Auth::id())->get();
+
     return view('dashboard', compact('users'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
