@@ -12,9 +12,28 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function (Request $request) {
-    
-    $users = User::where('id', '!=', Auth::id())->get();
 
+    $role = $request->role;
+    $search = $request->search;
+    
+    if($role === 'chercheur') {
+        $users = User::where('role', 'chercheur')
+                    ->where('id', '!=', Auth::id())->get();
+    }
+    elseif ($role === 'recruteur') {
+        $users = User::where('role', 'recruteur')->get();
+    }
+    elseif($search){
+        $users = User::where('name', 'LIKE', "%$search%")
+                    ->where('id', '!=', Auth::id())->get();
+    }else {
+        $users = User::where('id', '!=', Auth::id())->get();
+    }
+
+
+
+
+    
     return view('dashboard', compact('users'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
