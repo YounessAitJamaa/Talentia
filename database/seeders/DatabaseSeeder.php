@@ -15,11 +15,24 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        $this->call(RoleSeeder::class);
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        $chercheur = User::factory()->create([
+            'name' => 'Youness Chercheur',
+            'email' => 'chercheur@gmail.com',
+            'role' => 'chercheur'
         ]);
+        $chercheur->assignRole('chercheur');
+
+        $recruteur = User::factory()->create([
+            'name' => 'Youness Recruteur',
+            'email' => 'recruteur@gmail.com',
+            'role' => 'recruteur'
+        ]);
+        $recruteur->assignRole('recruteur');
+
+        User::factory(10)->create()->each(function($user){
+            $user->assignRole('chercheur');
+        });
     }
 }
