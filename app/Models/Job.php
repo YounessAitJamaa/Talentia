@@ -16,4 +16,8 @@ class Job extends Model
         'is_closed'
     ];
 
+    
+    public function recruteur() {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }
