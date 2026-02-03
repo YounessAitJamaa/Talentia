@@ -1,6 +1,16 @@
 <x-app-layout>
     <div class="bg-gray-50 min-h-screen">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+            <div class="mb-10">
+                <h2 class="text-xl font-extrabold text-gray-900 mb-4 flex items-center gap-2">
+                    <span class="p-2 bg-indigo-100 text-indigo-600 rounded-lg">💼</span>
+                    Offres d'emploi en direct
+                </h2>
+                @livewire('job-search')
+            </div>
+
+            <hr class="border-gray-200 mb-10">
             <div class="grid grid-cols-12 gap-6">
                 
                 <div class="hidden md:block md:col-span-3 space-y-4">
