@@ -43,6 +43,9 @@ class RegisteredUserController extends Controller
             'role' => $request->role,
         ]);
 
+        $user->assignRole($request->role);
+
+
         $user->profile()->create([
             'specialty' => null,
             'bio' => null,
