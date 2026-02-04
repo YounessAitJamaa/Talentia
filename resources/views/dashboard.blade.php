@@ -1,131 +1,125 @@
 <x-app-layout>
-    <div class="bg-gray-50 min-h-screen">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="bg-gray-50 min-h-screen pb-12">
+        <div class="bg-white border-b border-gray-200 mb-8">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                    <div class="max-w-xl">
+                        <h2 class="text-3xl font-extrabold text-gray-900 tracking-tight">
+                            Tableau de bord
+                        </h2>
+                        <p class="mt-2 text-gray-600">Recherchez des opportunités ou connectez-vous avec d'autres talents.</p>
+                    </div>
 
-            <div class="mb-10">
-                <h2 class="text-xl font-extrabold text-gray-900 mb-4 flex items-center gap-2">
-                    <span class="p-2 bg-indigo-100 text-indigo-600 rounded-lg">💼</span>
-                    Offres d'emploi en direct
-                </h2>
-                @livewire('job-search')
-            </div>
-
-            <hr class="border-gray-200 mb-10">
-            <div class="grid grid-cols-12 gap-6">
-                
-                <div class="hidden md:block md:col-span-3 space-y-4">
-                    <div class="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
-                        <div class="h-16 bg-indigo-600"></div>
-                        <div class="px-4 pb-4">
-                            <div class="relative -mt-8 flex justify-center">
-                                @if(auth()->user()->profile?->photo)
-                                    <img src="{{ asset('storage/'.auth()->user()->profile->photo) }}" class="w-16 h-16 rounded-full border-4 border-white object-cover">
-                                @else
-                                    <div class="w-16 h-16 rounded-full border-4 border-white bg-indigo-100 flex items-center justify-center font-bold text-indigo-600 uppercase text-xl">
-                                        {{ substr(auth()->user()->name, 0, 1) }}
-                                    </div>
-                                @endif
-                            </div>
-                            <div class="text-center mt-2">
-                                <h3 class="font-bold text-gray-900">{{ auth()->user()->name }}</h3>
-                                <p class="text-xs text-gray-500 uppercase">{{ auth()->user()->role }}</p>
+                    @role('recruteur')
+                    <div x-data="{ open: false }" class="flex-shrink-0">
+                        <button @click="open = !open" 
+                            class="inline-flex items-center px-6 py-3 bg-indigo-600 text-white font-semibold rounded-xl hover:bg-indigo-700 transition shadow-md hover:shadow-lg">
+                            <span x-show="!open" class="flex items-center"><svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg> Publier une offre</span>
+                            <span x-show="open">Annuler</span>
+                        </button>
+                        
+                        <div x-show="open" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4" x-cloak>
+                            <div @click.away="open = false" class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-8">
+                                <livewire:post-job />
                             </div>
                         </div>
                     </div>
-
-                    <div class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
-                        <h3 class="text-sm font-semibold text-gray-900 mb-4 border-b pb-2">Filtrer par catégorie</h3>
-                        <form action="{{ route('dashboard') }}" method="GET" id="filterForm">
-                            <input type="hidden" name="search" value="{{ request('search') }}">
-                            <div class="space-y-3">
-                                @foreach(['tous' => '', 'chercheurs' => 'chercheur', 'recruteurs' => 'recruteur'] as $label => $val)
-                                    <label class="flex items-center group cursor-pointer">
-                                        <input type="radio" name="role" value="{{ $val }}" 
-                                            class="w-4 h-4 text-indigo-600 border-gray-300 focus:ring-indigo-500" 
-                                            onchange="this.form.submit()" {{ request('role') == $val ? 'checked' : '' }}>
-                                        <span class="ml-3 text-sm text-gray-600 group-hover:text-indigo-600 transition">{{ ucfirst($label) }}</span>
-                                    </label>
-                                @endforeach
-                            </div>
-                        </form>
-                    </div>
+                    @endrole
                 </div>
 
-                <div class="col-span-12 md:col-span-9 space-y-6">
-                    
-                    <div class="bg-white rounded-xl border border-gray-200 p-4 shadow-sm">
-                        <form action="{{ route('dashboard') }}" method="GET" class="flex gap-2">
-                            <div class="relative flex-grow">
-                                <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
-                                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-                                </span>
-                                <input type="text" name="search" value="{{ request('search') }}" 
-                                    class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg bg-gray-50 focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" 
-                                    placeholder="Rechercher un talent ou un recruteur...">
-                            </div>
-                            <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 transition">Rechercher</button>
+                <div class="mt-8">
+                    @livewire('job-search')
+                </div>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-12 gap-8">
+                
+                <aside class="col-span-12 lg:col-span-3 space-y-6">
+                    <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 text-center">
+                        <div class="relative mb-4">
+                            @if(auth()->user()->profile?->photo)
+                                <img src="{{ asset('storage/'.auth()->user()->profile->photo) }}" class="w-20 h-20 rounded-full mx-auto border-4 border-indigo-50 object-cover">
+                            @else
+                                <div class="w-20 h-20 rounded-full mx-auto bg-indigo-100 flex items-center justify-center font-bold text-indigo-600 text-2xl uppercase">
+                                    {{ substr(auth()->user()->name, 0, 1) }}
+                                </div>
+                            @endif
+                            <span class="absolute bottom-0 right-1/2 translate-x-10 w-5 h-5 bg-green-400 border-2 border-white rounded-full"></span>
+                        </div>
+                        <h3 class="font-bold text-gray-900">{{ auth()->user()->name }}</h3>
+                        <p class="text-xs font-bold text-indigo-500 uppercase tracking-widest mt-1">{{ auth()->user()->role }}</p>
+                    </div>
+
+                    <div class="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+                        <h3 class="text-sm font-bold text-gray-900 mb-4 flex items-center">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
+                            Filtres
+                        </h3>
+                        <form action="{{ route('dashboard') }}" method="GET" class="space-y-3">
+                            @foreach(['Tous' => '', 'Chercheurs' => 'chercheur', 'Recruteurs' => 'recruteur'] as $label => $val)
+                                <label class="flex items-center p-2 rounded-lg hover:bg-gray-50 cursor-pointer transition">
+                                    <input type="radio" name="role" value="{{ $val }}" 
+                                        class="w-4 h-4 text-indigo-600 border-gray-300 focus:ring-indigo-500" 
+                                        onchange="this.form.submit()" {{ request('role') == $val ? 'checked' : '' }}>
+                                    <span class="ml-3 text-sm font-medium text-gray-700">{{ $label }}</span>
+                                </label>
+                            @endforeach
                         </form>
                     </div>
+                </aside>
 
-                    <div class="flex items-center justify-between">
-                        <p class="text-sm text-gray-500 italic">Affichage de <strong>{{ $users->count() }}</strong> membres trouvés</p>
+                <main class="col-span-12 lg:col-span-9">
+                    <div class="mb-6 flex items-center justify-between">
+                        <h3 class="text-lg font-bold text-gray-900">Communauté Talentia</h3>
+                        <span class="text-sm text-gray-500 bg-white px-3 py-1 rounded-full border border-gray-200">
+                            <strong>{{ $users->count() }}</strong> membres
+                        </span>
                     </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
                         @forelse($users as $u)
-                            @php
-                                $isFriend = \App\Models\Friendship::where(function($q) use ($u) {
-                                    $q->where('user_id', auth()->id())->where('friend_id', $u->id);
-                                })->orWhere(function($q) use ($u) {
-                                    $q->where('user_id', $u->id)->where('friend_id', auth()->id());
-                                })->where('status', 'accepted')->exists();
-                            @endphp
-                            <div class="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-lg transition-shadow duration-300 relative group text-center">
-                                <span class="absolute top-3 right-3 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider {{ $u->role === 'recruteur' ? 'bg-green-100 text-green-700' : 'bg-blue-100 text-blue-700' }}">
-                                    {{ $u->role }}
-                                </span>
+                            <div class="bg-white rounded-2xl border border-gray-200 p-5 hover:border-indigo-300 transition-all group shadow-sm">
+                                <div class="flex items-start justify-between mb-4">
+                                    @if($u->profile?->photo)
+                                        <img src="{{ asset('storage/'.$u->profile->photo) }}" class="w-14 h-14 rounded-xl object-cover">
+                                    @else
+                                        <div class="w-14 h-14 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center text-xl font-bold">
+                                            {{ substr($u->name, 0, 1) }}
+                                        </div>
+                                    @endif
+                                    <span class="px-2 py-1 rounded-md text-[10px] font-black uppercase tracking-tighter {{ $u->role === 'recruteur' ? 'bg-emerald-100 text-emerald-700' : 'bg-sky-100 text-sky-700' }}">
+                                        {{ $u->role }}
+                                    </span>
+                                </div>
 
-                                @if($u->profile?->photo)
-                                    <img src="{{ asset('storage/'.$u->profile->photo) }}" class="w-20 h-20 rounded-full mx-auto object-cover border-2 border-indigo-50 transition-transform group-hover:scale-105">
-                                @else
-                                    <div class="w-20 h-20 bg-gradient-to-br from-indigo-500 to-purple-600 text-white rounded-full mx-auto flex items-center justify-center text-2xl font-bold shadow-md">
-                                        {{ substr($u->name, 0, 1) }}
-                                    </div>
-                                @endif
-
-                                <h4 class="mt-4 font-bold text-gray-900 truncate">{{ $u->name }}</h4>
-                                <p class="text-sm font-medium text-indigo-600 truncate mb-2">{{ $u->profile?->specialty ?? 'Sans spécialité' }}</p>
+                                <h4 class="font-bold text-gray-900 group-hover:text-indigo-600 transition">{{ $u->name }}</h4>
+                                <p class="text-xs font-bold text-indigo-500 mb-3">{{ $u->profile?->specialty ?? 'Talent Talentia' }}</p>
                                 
-                                <p class="text-xs text-gray-500 line-clamp-2 min-h-[32px] mb-4">
-                                    {{ $u->profile?->bio ?? 'Aucune biographie disponible pour le moment.' }}
+                                <p class="text-xs text-gray-500 line-clamp-2 mb-5 h-8">
+                                    {{ $u->profile?->bio ?? 'Pas encore de bio...' }}
                                 </p>
 
-                                <div class="mt-4 flex flex-col gap-2">
-                                    <a href="{{ route('profile.show', $u->id) }}" class="text-sm font-semibold text-gray-600 hover:text-indigo-600 border border-gray-300 py-2 rounded-lg text-center transition">
-                                        Voir le profil
+                                <div class="flex gap-2 mt-auto">
+                                    <a href="{{ route('profile.show', $u->id) }}" class="flex-1 text-center py-2 text-xs font-bold text-gray-700 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-200">
+                                        Profil
                                     </a>
-                                
-                                @if(!$isFriend)
-                                    <form action="{{ route('friendship.send', $u->id) }}" method="POST">
+                                    <form action="{{ route('friendship.send', $u->id) }}" method="POST" class="flex-1">
                                         @csrf
-                                        <button type="submit" class="w-full bg-indigo-600 text-white text-sm font-bold py-2 rounded-lg hover:bg-indigo-700 shadow-sm transition">
-                                            Se connecter
+                                        <button class="w-full py-2 text-xs font-bold text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition shadow-sm">
+                                            Suivre
                                         </button>
                                     </form>
-                                @else
-                                    <span class="text-xs font-bold text-green-600 uppercase tracking-widest mt-2">✓ Déjà connecté</span>
-                                @endif
                                 </div>
                             </div>
                         @empty
-                            <div class="col-span-full py-12 text-center bg-white rounded-xl border border-dashed border-gray-300">
-                                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
-                                <h3 class="mt-2 text-sm font-medium text-gray-900">Aucun résultat</h3>
-                                <p class="mt-1 text-sm text-gray-500">Essayez de modifier vos filtres ou votre recherche.</p>
+                            <div class="col-span-full py-20 text-center bg-white rounded-2xl border-2 border-dashed border-gray-200">
+                                <p class="text-gray-400">Aucun membre ne correspond à votre recherche.</p>
                             </div>
                         @endforelse
                     </div>
-                </div>
+                </main>
             </div>
         </div>
     </div>

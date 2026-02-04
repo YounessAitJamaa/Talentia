@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,6 +12,34 @@ use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
+
+    public function index(Request $request) {
+
+            $role = $request->role;
+            $search = $request->search;
+            
+            if($role === 'chercheur') {
+                $users = User::where('role', 'chercheur')
+                            ->where('id', '!=', Auth::id())->get();
+            }
+            elseif ($role === 'recruteur') {
+                $users = User::where('role', 'recruteur')
+                            ->where('id', '!=', Auth::id())->get();
+            }
+            elseif($search){
+                $users = User::where('name', 'LIKE', "%$search%")
+                            ->where('id', '!=', Auth::id())->get();
+            }else {
+                $users = User::where('id', '!=', Auth::id())->get();
+            }
+            
+            return view('dashboard', compact('users'));
+    }
+
+    public function show($id) {
+        $user = User::with('profile')->findOrFail($id);
+        return view('profile.show', compact('user'));
+    }
     /**
      * Display the user's profile form.
      */

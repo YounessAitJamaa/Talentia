@@ -11,37 +11,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function (Request $request) {
+Route::get('/dashboard', [ProfileController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
-    $role = $request->role;
-    $search = $request->search;
-    
-    if($role === 'chercheur') {
-        $users = User::where('role', 'chercheur')
-                    ->where('id', '!=', Auth::id())->get();
-    }
-    elseif ($role === 'recruteur') {
-        $users = User::where('role', 'recruteur')->get();
-    }
-    elseif($search){
-        $users = User::where('name', 'LIKE', "%$search%")
-                    ->where('id', '!=', Auth::id())->get();
-    }else {
-        $users = User::where('id', '!=', Auth::id())->get();
-    }
-
-
-
-
-    
-    return view('dashboard', compact('users'));
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::get('/profile/{id}', function ($id) {
-    $user = User::with('profile')->findOrFail($id);
-    return view('profile.show', compact('user'));
-})->middleware(['auth'])->name('profile.show');
-
+Route::get('/profile/{id}', [ProfileController::class, 'show'])->middleware(['auth'])->name('profile.show');
 
 Route::middleware('auth')->group(function () {
     Route::post('/friendship/send/{id}', [FriendshipController::class, 'sendRequest'])->name('friendship.send');
