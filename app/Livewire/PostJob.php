@@ -24,9 +24,9 @@ class PostJob extends Component
     ];
 
     public function save()
-    {
+    {   
         
-    $this->validate(); 
+        $this->validate(); 
 
         $imagePath = $this->image ? $this->image->store('jobs', 'public') : 'jobs/default.png';
 

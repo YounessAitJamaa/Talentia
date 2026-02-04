@@ -21,4 +21,4 @@ class JobSearch extends Component
                 'jobs' => $jobs
             ]);
         }
-}
+}   
