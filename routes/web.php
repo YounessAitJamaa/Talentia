@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Controllers\FriendshipController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\CommunityController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -24,4 +26,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::middleware('auth')->group(function () {
+    Route::get('/community', [CommunityController::class, 'index'])
+        ->name('community.index');
+
+    Route::get('/community/{user}', [CommunityController::class, 'show'])
+        ->name('community.show');
+});
 require __DIR__.'/auth.php';
