@@ -113,14 +113,14 @@
                 {{-- SIDEBAR --}}
                 <aside class="col-span-12 lg:col-span-4 space-y-4">
                     {{-- Contact / actions card --}}
-                    <div class="bg-white border border-slate-200 rounded-lg p-5">
+                    {{-- <div class="bg-white border border-slate-200 rounded-lg p-5">
                         <h3 class="text-sm font-extrabold text-slate-900">Actions</h3>
                         <div class="mt-4 grid grid-cols-1 gap-2">
                             @if(auth()->id() !== $user->id)
                                 <form action="{{ route('friendship.send', $user->id) }}" method="POST">
                                     @csrf
                                     <button class="w-full px-5 py-2 rounded-full bg-indigo-600 text-white text-sm font-extrabold hover:bg-indigo-700 transition">
-                                        Se connecter
+                                        Suivre
                                     </button>
                                 </form>
                             @endif
@@ -129,8 +129,8 @@
                                class="w-full text-center px-5 py-2 rounded-full border border-slate-300 bg-white hover:bg-slate-50 transition text-sm font-extrabold text-slate-800">
                                 Message
                             </a> --}}
-                        </div>
-                    </div>
+                        {{-- </div>
+                    </div> --}}
 
                     {{-- Small “Profile card” info --}}
                     <div class="bg-white border border-slate-200 rounded-lg p-5">
