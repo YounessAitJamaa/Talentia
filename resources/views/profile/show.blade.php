@@ -48,31 +48,29 @@
                         </div>
 
                         {{-- Right: actions --}}
-                        <div class="flex flex-wrap gap-2">
-                            <form action="{{ route('friendship.send', $user->id) }}" method="POST">
-                                @csrf
-                                <button
-                                    type="submit"
-                                    class="px-5 py-2 rounded-full bg-indigo-600 text-white text-sm font-extrabold hover:bg-indigo-700 transition"
-                                >
-                                    Se connecter
-                                </button>
-                            </form>
+                        <div class="flex gap-2">
+                            @if(auth()->id() !== $user->id)
+                                <form action="{{ route('friendship.send', $user->id) }}" method="POST">
+                                    @csrf
+                                    <button type="submit"
+                                        class="bg-indigo-600 text-white px-6 py-2 rounded-full font-bold hover:bg-indigo-700 transition">
+                                        Se connecter
+                                    </button>
+                                </form>
 
-                            {{-- <a
-                                href="{{ route('messages.show', $user->id) }}"
-                                class="px-5 py-2 rounded-full border border-slate-300 bg-white hover:bg-slate-50 transition text-sm font-extrabold text-slate-800"
-                            >
-                                Message
-                            </a> --}}
-
-                            <a
-                                href="{{ url()->previous() }}"
-                                class="px-3 py-2 rounded-full text-sm font-extrabold text-slate-600 hover:text-slate-900"
-                            >
-                                ← Retour
-                            </a>
+                                {{-- optional message button --}}
+                                {{-- <a href="{{ route('messages.show', $user->id) }}" class="px-6 py-2 rounded-full border font-bold hover:bg-gray-50">
+                                    Message
+                                </a> --}}
+                            @else
+                                {{-- optional: show edit profile instead --}}
+                                <a href="{{ route('profile.edit') }}"
+                                class="px-6 py-2 rounded-full border border-gray-300 font-bold hover:bg-gray-50 transition">
+                                    Modifier mon profil
+                                </a>
+                            @endif
                         </div>
+
                     </div>
 
                     {{-- Headline / short bio line (LinkedIn vibe) --}}
@@ -118,12 +116,14 @@
                     <div class="bg-white border border-slate-200 rounded-lg p-5">
                         <h3 class="text-sm font-extrabold text-slate-900">Actions</h3>
                         <div class="mt-4 grid grid-cols-1 gap-2">
-                            <form action="{{ route('friendship.send', $user->id) }}" method="POST">
-                                @csrf
-                                <button class="w-full px-5 py-2 rounded-full bg-indigo-600 text-white text-sm font-extrabold hover:bg-indigo-700 transition">
-                                    Se connecter
-                                </button>
-                            </form>
+                            @if(auth()->id() !== $user->id)
+                                <form action="{{ route('friendship.send', $user->id) }}" method="POST">
+                                    @csrf
+                                    <button class="w-full px-5 py-2 rounded-full bg-indigo-600 text-white text-sm font-extrabold hover:bg-indigo-700 transition">
+                                        Se connecter
+                                    </button>
+                                </form>
+                            @endif
 
                             {{-- <a href="{{ route('messages.show', $user->id) }}"
                                class="w-full text-center px-5 py-2 rounded-full border border-slate-300 bg-white hover:bg-slate-50 transition text-sm font-extrabold text-slate-800">
