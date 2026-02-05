@@ -38,7 +38,10 @@ class ProfileController extends Controller
 
     public function show($id) {
         $user = User::with('profile')->findOrFail($id);
-        return view('profile.show', compact('user'));
+
+        $status = $this->friendshipStatus($user->id);
+
+        return view('profile.show', compact('user', 'status'));
     }
     /**
      * Display the user's profile form.
@@ -99,5 +102,23 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+
+    private function friendshipStatus(int $otherUserId): ?string
+    {
+        $me = Auth::id();
+
+        if (!$me || $me === $otherUserId) {
+            return null;
+        }
+
+        return \App\Models\Friendship::query()
+            ->where(function ($q) use ($me, $otherUserId) {
+                $q->where('user_id', $me)->where('friend_id', $otherUserId);
+            })
+            ->orWhere(function ($q) use ($me, $otherUserId) {
+                $q->where('user_id', $otherUserId)->where('friend_id', $me);
+            })
+            ->value('status'); 
     }
 }

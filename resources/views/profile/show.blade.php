@@ -49,27 +49,36 @@
 
                         {{-- Right: actions --}}
                         <div class="flex gap-2">
-                            @if(auth()->id() !== $user->id)
-                                <form action="{{ route('friendship.send', $user->id) }}" method="POST">
-                                    @csrf
-                                    <button type="submit"
-                                        class="bg-indigo-600 text-white px-6 py-2 rounded-full font-bold hover:bg-indigo-700 transition">
-                                        Suivre
-                                    </button>
-                                </form>
+                            @if(Auth::id() !== $user->id)
 
-                                {{-- optional message button --}}
-                                {{-- <a href="{{ route('messages.show', $user->id) }}" class="px-6 py-2 rounded-full border font-bold hover:bg-gray-50">
-                                    Message
-                                </a> --}}
+                                @if($status === 'accepted')
+                                    <span class="px-6 py-2 rounded-full bg-emerald-50 text-emerald-700 font-bold">
+                                        Connecté
+                                    </span>
+
+                                @elseif($status === 'pending')
+                                    <button disabled class="px-6 py-2 rounded-full bg-slate-100 text-slate-500 font-bold cursor-not-allowed">
+                                        En attente
+                                    </button>
+
+                                @else
+                                    <form action="{{ route('friendship.send', $user->id) }}" method="POST">
+                                        @csrf
+                                        <button type="submit"
+                                            class="bg-indigo-600 text-white px-6 py-2 rounded-full font-bold hover:bg-indigo-700 transition">
+                                            Suivre
+                                        </button>
+                                    </form>
+                                @endif
+
                             @else
-                                {{-- optional: show edit profile instead --}}
                                 <a href="{{ route('profile.edit') }}"
                                 class="px-6 py-2 rounded-full border border-gray-300 font-bold hover:bg-gray-50 transition">
                                     Modifier mon profil
                                 </a>
                             @endif
                         </div>
+
 
                     </div>
 
