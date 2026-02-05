@@ -5,6 +5,7 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Models\Job;
 
+
 class JobSearch extends Component
 {
     public $search = '';
