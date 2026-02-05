@@ -78,7 +78,10 @@ class ProfileController extends Controller
             $profileData['photo'] = $path;
         }
 
-        $user->profile()->update($profileData);
+        $user->profile()->updateOrCreate(
+            ['user_id' => $user->id],
+            $profileData
+        );
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
