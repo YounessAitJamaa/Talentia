@@ -1,204 +1,173 @@
 <x-app-layout>
-    <div class="min-h-screen bg-slate-50">
-        {{-- TOP HEADER --}}
-        <div class="border-b bg-white/80 backdrop-blur">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                <div class="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-                    <div>
-                        <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900">
-                            Tableau de bord
-                        </h2>
-                        <p class="mt-2 text-slate-600">
-                            Recherchez des opportunités ou connectez-vous avec d'autres talents.
-                        </p>
+    <div class="min-h-screen bg-slate-100">
+        {{-- Top bar --}}
+        <div class="sticky top-0 z-40 border-b bg-white">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded bg-indigo-600"></div>
+                    <div class="hidden sm:block">
+                        <p class="text-sm font-extrabold text-slate-900">Talentia</p>
+                        <p class="text-xs text-slate-500 -mt-0.5">Dashboard</p>
                     </div>
+                </div>
 
-                    @role('recruteur')
-                    <div x-data="{ open: false }" class="flex-shrink-0">
-                        <button
-                            @click="open = !open"
-                            class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-indigo-600 text-white font-bold shadow-sm hover:bg-indigo-700 transition"
-                        >
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-                            </svg>
-                            Publier une offre
-                        </button>
+                @role('recruteur')
+                <div x-data="{ open: false }" class="flex items-center gap-2">
+                    <button
+                        @click="open = true"
+                        class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-600 text-white text-sm font-extrabold hover:bg-indigo-700 transition"
+                    >
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                        </svg>
+                        Publier une offre
+                    </button>
 
-                        {{-- MODAL --}}
-                        <div
-                            x-show="open"
-                            x-cloak
-                            class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
-                        >
-                            <div
-                                @click.away="open = false"
-                                class="w-full max-w-2xl rounded-2xl bg-white shadow-2xl overflow-hidden"
-                            >
-                                <div class="flex items-center justify-between px-6 py-4 border-b">
-                                    <h3 class="font-extrabold text-slate-900">Nouvelle offre</h3>
-                                    <button @click="open=false" class="text-slate-500 hover:text-slate-900">
-                                        ✕
-                                    </button>
-                                </div>
-
-                                <div class="p-6 max-h-[80vh] overflow-y-auto">
-                                    <livewire:post-job />
-                                </div>
+                    {{-- Modal --}}
+                    <div x-show="open" x-cloak class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
+                        <div @click.away="open=false" class="w-full max-w-2xl bg-white rounded-xl shadow-2xl overflow-hidden">
+                            <div class="px-5 py-4 border-b flex items-center justify-between">
+                                <h3 class="font-extrabold text-slate-900">Nouvelle offre</h3>
+                                <button @click="open=false" class="text-slate-500 hover:text-slate-900">✕</button>
+                            </div>
+                            <div class="p-5 max-h-[80vh] overflow-y-auto">
+                                <livewire:post-job />
                             </div>
                         </div>
                     </div>
-                    @endrole
                 </div>
-
-                {{-- JOB SEARCH --}}
-                <div class="mt-6">
-                    @livewire('job-search')
-                </div>
+                @endrole
             </div>
         </div>
 
-        {{-- CONTENT --}}
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div class="grid grid-cols-12 gap-8">
-                {{-- SIDEBAR --}}
-                <aside class="col-span-12 lg:col-span-3">
-                    <div class="lg:sticky lg:top-6 space-y-6">
-                        {{-- PROFILE CARD --}}
-                        <div class="rounded-2xl bg-white shadow-sm ring-1 ring-slate-200 p-6">
-                            <div class="flex items-center gap-4">
-                                <div class="relative">
-                                    @if(auth()->user()->profile?->photo)
-                                        <img
-                                            src="{{ asset('storage/'.auth()->user()->profile->photo) }}"
-                                            class="w-14 h-14 rounded-2xl object-cover ring-2 ring-indigo-50"
-                                        >
-                                    @else
-                                        <div class="w-14 h-14 rounded-2xl bg-indigo-100 flex items-center justify-center font-extrabold text-indigo-600 text-xl uppercase">
-                                            {{ substr(auth()->user()->name, 0, 1) }}
-                                        </div>
-                                    @endif
-                                    <span class="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-emerald-400 ring-2 ring-white"></span>
-                                </div>
+        {{-- 3 column layout --}}
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 py-6">
+            <div class="grid grid-cols-12 gap-6">
 
-                                <div class="min-w-0">
-                                    <p class="font-extrabold text-slate-900 truncate">{{ auth()->user()->name }}</p>
-                                    <p class="text-xs font-black uppercase tracking-widest text-indigo-600">
-                                        {{ auth()->user()->role }}
-                                    </p>
-                                </div>
+                {{-- LEFT: Profile --}}
+                <aside class="col-span-12 md:col-span-4 lg:col-span-3 space-y-4">
+                    <div class="bg-white border border-slate-200 rounded-lg overflow-hidden">
+                        <div class="h-14 bg-gradient-to-r from-indigo-600 to-indigo-400"></div>
+
+                        <div class="p-4">
+                            <div class="-mt-9 flex items-end gap-3">
+                                @if(auth()->user()->profile?->photo)
+                                    <img src="{{ asset('storage/'.auth()->user()->profile->photo) }}"
+                                         class="w-16 h-16 rounded-full object-cover ring-4 ring-white border border-slate-200">
+                                @else
+                                    <div class="w-16 h-16 rounded-full bg-indigo-100 flex items-center justify-center font-extrabold text-indigo-700 text-2xl ring-4 ring-white border border-slate-200">
+                                        {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                                    </div>
+                                @endif
                             </div>
 
-                            <div class="mt-5 grid grid-cols-2 gap-2">
+                            <div class="mt-3">
+                                <p class="font-extrabold text-slate-900">{{ auth()->user()->name }}</p>
+                                <p class="text-sm text-slate-600">
+                                    {{ auth()->user()->profile?->specialty ?? 'Talent Talentia' }}
+                                </p>
+                                <p class="mt-2 inline-flex text-[11px] font-black uppercase tracking-widest text-indigo-700 bg-indigo-50 px-2 py-1 rounded">
+                                    {{ auth()->user()->role }}
+                                </p>
+                            </div>
+
+                            <div class="mt-4 flex gap-2">
                                 <a href="{{ route('profile.show', auth()->id()) }}"
-                                   class="text-center text-sm font-bold py-2 rounded-xl bg-slate-100 hover:bg-slate-200 transition">
-                                    Mon profil
+                                   class="flex-1 text-center text-sm font-extrabold px-3 py-2 rounded-full bg-slate-900 text-white hover:bg-slate-800 transition">
+                                    Profil
                                 </a>
                                 <a href="{{ route('dashboard') }}"
-                                   class="text-center text-sm font-bold py-2 rounded-xl bg-white ring-1 ring-slate-200 hover:bg-slate-50 transition">
+                                   class="flex-1 text-center text-sm font-extrabold px-3 py-2 rounded-full border border-slate-300 hover:bg-slate-50 transition">
                                     Actualiser
                                 </a>
                             </div>
                         </div>
+                    </div>
 
-                        {{-- FILTERS --}}
-                        <div class="rounded-2xl bg-white shadow-sm ring-1 ring-slate-200 p-6">
-                            <div class="flex items-center justify-between">
-                                <h3 class="text-sm font-extrabold text-slate-900">Filtres</h3>
-                                <span class="text-xs text-slate-500">Communauté</span>
-                            </div>
+                    {{-- Quick filters (LinkedIn-like) --}}
+                    <div class="bg-white border border-slate-200 rounded-lg p-4">
+                        <h4 class="text-sm font-extrabold text-slate-900">Communauté</h4>
+                        <p class="text-xs text-slate-500 mt-1">Filtrer les membres</p>
 
-                            <form action="{{ route('dashboard') }}" method="GET" class="mt-4 space-y-2">
-                                @foreach(['Tous' => '', 'Chercheurs' => 'chercheur', 'Recruteurs' => 'recruteur'] as $label => $val)
-                                    <label class="flex items-center gap-3 rounded-xl px-3 py-2 hover:bg-slate-50 cursor-pointer transition">
-                                        <input
-                                            type="radio"
-                                            name="role"
-                                            value="{{ $val }}"
-                                            class="w-4 h-4 text-indigo-600 border-slate-300 focus:ring-indigo-500"
-                                            onchange="this.form.submit()"
-                                            {{ request('role') == $val ? 'checked' : '' }}
-                                        >
-                                        <span class="text-sm font-semibold text-slate-700">{{ $label }}</span>
-                                    </label>
-                                @endforeach
-                            </form>
-                        </div>
+                        <form action="{{ route('dashboard') }}" method="GET" class="mt-3 space-y-2">
+                            @foreach(['Tous' => '', 'Chercheurs' => 'chercheur', 'Recruteurs' => 'recruteur'] as $label => $val)
+                                <button
+                                    type="submit"
+                                    name="role"
+                                    value="{{ $val }}"
+                                    class="w-full text-left px-3 py-2 rounded-md text-sm font-semibold border
+                                    {{ request('role') == $val ? 'bg-indigo-50 border-indigo-200 text-indigo-700' : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50' }}">
+                                    {{ $label }}
+                                </button>
+                            @endforeach
+                        </form>
                     </div>
                 </aside>
 
-                {{-- MAIN --}}
-                <main class="col-span-12 lg:col-span-9">
-                    <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-6">
-                        <div>
-                            <h3 class="text-lg font-extrabold text-slate-900">Communauté Talentia</h3>
-                            <p class="text-sm text-slate-500">Trouvez des profils et développez votre réseau.</p>
-                        </div>
-
-                        <div class="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 ring-1 ring-slate-200">
-                            <span class="text-sm text-slate-500">Membres</span>
-                            <span class="text-sm font-extrabold text-slate-900">{{ $users->count() }}</span>
-                        </div>
+                {{-- CENTER: Feed (Jobs search) --}}
+                <main class="col-span-12 md:col-span-8 lg:col-span-6 space-y-4">
+                    {{-- Feed intro card --}}
+                    <div class="bg-white border border-slate-200 rounded-lg p-4">
+                        <p class="text-sm text-slate-600">
+                            Bonjour <span class="font-extrabold text-slate-900">{{ auth()->user()->name }}</span>,
+                            recherchez des offres et développez votre réseau.
+                        </p>
                     </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
-                        @forelse($users as $u)
-                            <div class="group rounded-2xl bg-white shadow-sm ring-1 ring-slate-200 p-5 hover:ring-indigo-200 hover:shadow-md transition">
-                                <div class="flex items-start justify-between gap-3">
-                                    <div class="flex items-center gap-3 min-w-0">
-                                        @if($u->profile?->photo)
-                                            <img src="{{ asset('storage/'.$u->profile->photo) }}" class="w-12 h-12 rounded-2xl object-cover">
-                                        @else
-                                            <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-extrabold text-lg">
-                                                {{ substr($u->name, 0, 1) }}
-                                            </div>
-                                        @endif
+                    {{-- Jobs Search Feed --}}
+                    <div>
+                        @livewire('job-search')
+                    </div>
+                </main>
 
-                                        <div class="min-w-0">
-                                            <p class="font-extrabold text-slate-900 truncate group-hover:text-indigo-600 transition">
-                                                {{ $u->name }}
-                                            </p>
-                                            <p class="text-xs font-bold text-slate-500 truncate">
-                                                {{ $u->profile?->specialty ?? 'Talent Talentia' }}
-                                            </p>
+                {{-- RIGHT: Suggestions / People --}}
+                <aside class="col-span-12 lg:col-span-3 space-y-4">
+                    <div class="bg-white border border-slate-200 rounded-lg p-4">
+                        <div class="flex items-center justify-between">
+                            <h4 class="text-sm font-extrabold text-slate-900">People you may know</h4>
+                            <span class="text-xs text-slate-500">{{ $users->count() }} membres</span>
+                        </div>
+
+                        <div class="mt-3 space-y-3">
+                            @forelse($users->take(6) as $u)
+                                <div class="flex items-center gap-3">
+                                    @if($u->profile?->photo)
+                                        <img src="{{ asset('storage/'.$u->profile->photo) }}" class="w-10 h-10 rounded-full object-cover border border-slate-200">
+                                    @else
+                                        <div class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center font-extrabold text-slate-700">
+                                            {{ strtoupper(substr($u->name, 0, 1)) }}
                                         </div>
+                                    @endif
+
+                                    <div class="min-w-0 flex-1">
+                                        <p class="text-sm font-extrabold text-slate-900 truncate">{{ $u->name }}</p>
+                                        <p class="text-xs text-slate-500 truncate">{{ $u->profile?->specialty ?? 'Talent Talentia' }}</p>
                                     </div>
 
-                                    <span class="shrink-0 px-2 py-1 rounded-lg text-[10px] font-black uppercase tracking-tight
-                                        {{ $u->role === 'recruteur' ? 'bg-emerald-100 text-emerald-700' : 'bg-sky-100 text-sky-700' }}">
-                                        {{ $u->role }}
-                                    </span>
-                                </div>
-
-                                <p class="mt-4 text-sm text-slate-600 line-clamp-3 min-h-[60px]">
-                                    {{ $u->profile?->bio ?? 'Pas encore de bio...' }}
-                                </p>
-
-                                <div class="mt-5 flex gap-2">
-                                    <a href="{{ route('profile.show', $u->id) }}"
-                                       class="flex-1 text-center py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 transition text-sm font-extrabold text-slate-800">
-                                        Profil
-                                    </a>
-
-                                    <form action="{{ route('friendship.send', $u->id) }}" method="POST" class="flex-1">
+                                    <form action="{{ route('friendship.send', $u->id) }}" method="POST">
                                         @csrf
-                                        <button
-                                            class="w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 transition text-sm font-extrabold text-white shadow-sm"
-                                        >
+                                        <button class="px-3 py-1.5 rounded-full bg-indigo-600 hover:bg-indigo-700 transition text-xs font-extrabold text-white">
                                             Suivre
                                         </button>
                                     </form>
                                 </div>
-                            </div>
-                        @empty
-                            <div class="col-span-full">
-                                <div class="rounded-2xl bg-white ring-1 ring-slate-200 p-10 text-center">
-                                    <p class="text-slate-500 font-semibold">Aucun membre ne correspond à votre recherche.</p>
-                                </div>
-                            </div>
-                        @endforelse
+                            @empty
+                                <p class="text-sm text-slate-500">Aucun membre.</p>
+                            @endforelse
+                        </div>
                     </div>
-                </main>
+
+                    {{-- Trending / Tips card --}}
+                    <div class="bg-white border border-slate-200 rounded-lg p-4">
+                        <h4 class="text-sm font-extrabold text-slate-900">Conseils</h4>
+                        <ul class="mt-2 text-sm text-slate-600 space-y-2">
+                            <li>• Complétez votre profil (CV, bio).</li>
+                            <li>• Ajoutez des connexions pertinentes.</li>
+                            <li>• Postulez à 3 offres par jour.</li>
+                        </ul>
+                    </div>
+                </aside>
+
             </div>
         </div>
     </div>
