@@ -17,7 +17,7 @@ class ProfileController extends Controller
 
             $role = $request->role;
             $search = $request->search;
-            
+
             if($role === 'chercheur') {
                 $users = User::where('role', 'chercheur')
                             ->where('id', '!=', Auth::id())->get();
@@ -32,7 +32,7 @@ class ProfileController extends Controller
             }else {
                 $users = User::where('id', '!=', Auth::id())->get();
             }
-            
+
             return view('dashboard', compact('users'));
     }
 
@@ -122,6 +122,6 @@ class ProfileController extends Controller
             ->orWhere(function ($q) use ($me, $otherUserId) {
                 $q->where('user_id', $otherUserId)->where('friend_id', $me);
             })
-            ->value('status'); 
+            ->value('status');
     }
 }
