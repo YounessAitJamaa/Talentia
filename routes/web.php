@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\RegisteredUserController;
-use App\Http\Controllers\GoogleController;
+use App\Http\Controllers\OAuthController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
@@ -18,10 +18,14 @@ Route::get('/', function () {
 
 //////////////////////////
 //for socialite login
-Route::get('/auth/redirect', function () {
+Route::get('/auth/google/redirect', function () {
     return Socialite::driver('google')->redirect();
 });
-Route::get('/auth/callback', [GoogleController::class,'loginGoogle']);
+Route::get('/auth/github/redirect', function () {
+    return Socialite::driver('github')->redirect();
+});
+Route::get('/auth/callback', [OAuthController::class,'loginGoogle']);
+Route::get('/auth/github/callback', [OAuthController::class,'loginGithub']);
 Route::view('choseRole','choseRole');
 Route::post('choseRole/setRole', [RegisteredUserController::class,'setRole'])->name('setRole');
 //////////////////////////

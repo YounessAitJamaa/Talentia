@@ -8,8 +8,30 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Socialite;
 
-class GoogleController extends Controller
+class OAuthController extends Controller
 {
+    public function loginGithub() {
+     $githubUser = Socialite::driver('github')->user();
+
+    $user = User::updateOrCreate([
+        'github_id' => $githubUser->id,
+    ], [
+        'name' => $githubUser->name,
+        'role' => 'chercheur',
+        'email' => $githubUser->email,
+        'github_token' => $githubUser->token,
+        'github_refresh_token' => $githubUser->refreshToken,
+    ]);
+
+    Auth::login($user);
+        $profile = Profile::updateOrCreate([
+            'user_id' => $user->id,
+            'photo'=> $githubUser->getAvatar()
+        ]);
+
+    return redirect('/choseRole');
+    }
+
     public function loginGoogle() {
     $googleUser = Socialite::driver('google')->user();
 

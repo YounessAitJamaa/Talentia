@@ -59,7 +59,12 @@
             </x-primary-button>
 
             <x-primary-button class="ms-4">
-                <a href="auth/redirect">
+                <a href="auth/github/redirect">
+                {{ __('Register With Github') }}
+                </a>
+            </x-primary-button>
+            <x-primary-button class="ms-4">
+                <a href="auth/google/redirect">
                 {{ __('Register With Google') }}
                 </a>
             </x-primary-button>

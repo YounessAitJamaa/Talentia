@@ -61,6 +61,7 @@ class RegisteredUserController extends Controller
 
     public function setRole(Request $r) {
         Auth::user()->update(['role' => $r->role]);
+        Auth::user()->assignRole($r->role);
         return redirect('/dashboard');
     }
 }
