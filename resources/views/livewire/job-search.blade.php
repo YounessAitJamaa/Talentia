@@ -72,11 +72,9 @@
                                         Voir
                                     </button>
 
-                                    <button
-                                        class="flex-1 rounded-xl bg-indigo-600 hover:bg-indigo-700 transition py-2.5 text-sm font-extrabold text-white shadow-sm"
-                                    >
-                                        Postuler
-                                    </button>
+                                    @if(Auth::check() && Auth::user()->role === 'chercheur')
+                                        <livewire:apply-job :job="$job" :key="'apply-list-'.$job->id" />
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -134,10 +132,9 @@
                             Fermer
                         </button>
 
-                        <button
-                            class="flex-1 rounded-xl bg-indigo-600 hover:bg-indigo-700 transition py-2.5 text-sm font-extrabold text-white shadow-sm">
-                            Postuler
-                        </button>
+                        @if(Auth::check() && Auth::user()->role === 'chercheur')
+                            <livewire:apply-job :job="$selectedJob" :key="'apply-modal-'.$selectedJob->id" />
+                        @endif
                     </div>
                 </div>
             </div>

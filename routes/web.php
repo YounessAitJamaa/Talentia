@@ -46,5 +46,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/community/{user}', [CommunityController::class, 'show'])
         ->name('community.show');
+
+    Route::get('/my-jobs', App\Livewire\RecruiterDashboard::class)->name('recruiter.dashboard');
+    Route::get('/jobs/{jobId}/applications', App\Livewire\JobApplications::class)->name('job.applications');
 });
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
