@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -15,12 +16,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+//////////////////////////
 //for socialite login
-
 Route::get('/auth/redirect', function () {
     return Socialite::driver('google')->redirect();
 });
 Route::get('/auth/callback', [GoogleController::class,'loginGoogle']);
+Route::view('choseRole','choseRole');
+Route::post('choseRole/setRole', [RegisteredUserController::class,'setRole'])->name('setRole');
+//////////////////////////
 //////////////////////////
 
 Route::get('/dashboard', [ProfileController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');

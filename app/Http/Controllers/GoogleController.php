@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,7 +24,11 @@ class GoogleController extends Controller
     ]);
 
     Auth::login($user);
+        $profile = Profile::updateOrCreate([
+            'user_id' => $user->id,
+            'photo'=> $googleUser->getAvatar()
+        ]);
 
-    return redirect('/dashboard');
+    return redirect('/choseRole');
     }
 }

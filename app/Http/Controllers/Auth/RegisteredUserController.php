@@ -58,4 +58,9 @@ class RegisteredUserController extends Controller
 
         return redirect(route('login'))->with('status', 'Registration successful! Please log in.');
     }
+
+    public function setRole(Request $r) {
+        Auth::user()->update(['role' => $r->role]);
+        return redirect('/dashboard');
+    }
 }
