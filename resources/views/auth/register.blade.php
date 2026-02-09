@@ -10,8 +10,8 @@
         </div>
 
         <!-- Email Address -->
-        <div class="mt-4">
             <x-input-label for="email" :value="__('Email')" />
+        <div class="mt-4">
             <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
@@ -41,6 +41,7 @@
 
         <div class="mt-4">
             <x-input-label for="role" :value="__('Je suis un :')" />
+
             <select id="role" name="role" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
                 <option value="chercheur">Chercheur d'emploi</option>
                 <option value="recruteur">Recruteur / Entreprise</option>
@@ -55,6 +56,12 @@
 
             <x-primary-button class="ms-4">
                 {{ __('Register') }}
+            </x-primary-button>
+
+            <x-primary-button class="ms-4">
+                <a href="auth/redirect">
+                {{ __('Register With Google') }}
+                </a>
             </x-primary-button>
         </div>
     </form>

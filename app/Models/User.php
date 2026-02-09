@@ -23,6 +23,9 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        'google_id',
+        'google_token',
+        'google_refresh_token',
     ];
 
     /**
@@ -51,7 +54,7 @@ class User extends Authenticatable
 
     public function profile() {
         return $this->hasOne(Profile::class);
-    }   
+    }
 
     public function jobs() {
         return $this->hasMany(Job::class);

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
@@ -7,11 +8,20 @@ use App\Models\User;
 use App\Http\Controllers\FriendshipController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\CommunityController;
+use Laravel\Socialite\Socialite;
 
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+//for socialite login
+
+Route::get('/auth/redirect', function () {
+    return Socialite::driver('google')->redirect();
+});
+Route::get('/auth/callback', [GoogleController::class,'loginGoogle']);
+//////////////////////////
 
 Route::get('/dashboard', [ProfileController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
