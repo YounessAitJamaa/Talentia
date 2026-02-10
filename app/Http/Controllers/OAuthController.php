@@ -50,7 +50,9 @@ class OAuthController extends Controller
             'user_id' => $user->id,
             'photo'=> $googleUser->getAvatar()
         ]);
-
+if ($user->wasRecentlyCreated) {
     return redirect('/choseRole');
+}
+    return redirect('/dashboard');
     }
 }
