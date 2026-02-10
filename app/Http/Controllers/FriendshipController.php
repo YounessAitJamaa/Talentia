@@ -20,23 +20,43 @@ class FriendshipController extends Controller
         return view('friendships.index', compact('invitations'));
     }
 
-
-    public function sendRequest($friendId) 
+    public function showFriendsList()
     {
         $userId = Auth::id();
 
-        if($userId == $friendId) {
+        // Get all friends where the user is either the sender or the receiver of an accepted friendship
+        $friends = User::where(function ($query) use ($userId) {
+            $query->whereHas('friendshipsReceived', function ($q) use ($userId) {
+                $q->where('user_id', $userId)->where('status', 'accepted');
+            })
+                ->orWhereHas('friendshipsSent', function ($q) use ($userId) {
+                    $q->where('friend_id', $userId)->where('status', 'accepted');
+                });
+        })
+            ->with('profile') // Eager load the profile
+            ->paginate(10);
+
+        return view('friendships.friendsList', compact('friends'));
+    }
+
+
+
+    public function sendRequest($friendId)
+    {
+        $userId = Auth::id();
+
+        if ($userId == $friendId) {
             return back()->with('error', 'Vous ne pouvez pas vous ajouter vous-même.');
         }
 
-         $existingFriendship = Friendship::where(function($query) use ($userId, $friendId) {
-                $query->where('user_id', $userId)->where('friend_id', $friendId);
-            })->orWhere(function($query) use ($userId, $friendId) {
-                $query->where('user_id', $friendId)->where('friend_id', $userId);
-            })->first();
+        $existingFriendship = Friendship::where(function ($query) use ($userId, $friendId) {
+            $query->where('user_id', $userId)->where('friend_id', $friendId);
+        })->orWhere(function ($query) use ($userId, $friendId) {
+            $query->where('user_id', $friendId)->where('friend_id', $userId);
+        })->first();
 
 
-        if($existingFriendship && $existingFriendship->status == 'rejected') {
+        if ($existingFriendship && $existingFriendship->status == 'rejected') {
 
             $existingFriendship->update([
                 'status' => 'pending',
@@ -46,7 +66,7 @@ class FriendshipController extends Controller
         }
 
         Friendship::create([
-            'user_id' => $userId,   
+            'user_id' => $userId,
             'friend_id' => $friendId,
             'status' => 'pending',
         ]);
@@ -54,13 +74,14 @@ class FriendshipController extends Controller
         return back()->with('status', 'Demande de connexion envoyée !');
     }
 
-    
-    public function acceptRequest($id) {
+
+    public function acceptRequest($id)
+    {
 
         $friendship = Friendship::where('id', $id)
-                ->where('friend_id', Auth::id())
-                ->where('status', 'pending')
-                ->firstOrFail();
+            ->where('friend_id', Auth::id())
+            ->where('status', 'pending')
+            ->firstOrFail();
 
         $friendship->update([
             'status' => 'accepted'
@@ -72,10 +93,10 @@ class FriendshipController extends Controller
     public function rejectRequest($id)
     {
         $friendship = Friendship::where('id', $id)
-                        ->where('friend_id', Auth::id())
-                        ->where('status', 'pending')
-                        ->firstOrFail();
-        
+            ->where('friend_id', Auth::id())
+            ->where('status', 'pending')
+            ->firstOrFail();
+
         $friendship->update([
             'status' => 'rejected'
         ]);

@@ -35,12 +35,16 @@
                         {{ __('Communauté') }}
                     </x-nav-link>
 
-                    @if(auth()->user()->role === 'recruteur')
+                    @if(auth()->user()->hasRole('recruteur'))
                         <x-nav-link :href="route('recruiter.dashboard')"
                             :active="request()->routeIs('recruiter.dashboard')">
                             {{ __('Mes Offres') }}
                         </x-nav-link>
                     @endif
+
+                    <x-nav-link :href="route('friends')" :active="request()->routeIs('friends')">
+                        {{ __('Friends') }}
+                    </x-nav-link>
 
                     <a href="{{ route('friendships.index') }}"
                         class="relative inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 transition">

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Livewire;
 
@@ -7,7 +7,7 @@ use App\Models\Message;
 use Livewire\Component;
 
 
-class ChatComponent extends Component 
+class ChatComponent extends Component
 {
     public $receiver;
     public $content;
