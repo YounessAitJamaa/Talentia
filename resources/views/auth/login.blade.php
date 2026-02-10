@@ -43,7 +43,8 @@
                 {{ __('Log in') }}
             </x-primary-button>
         </div>
-        <br>
+    </form>
+    <div class = "flex flex-col gap-3 items-center mt-6">
             <x-primary-button class="ms-4">
                 <a href="auth/github/redirect">
                 {{ __('login With Github') }}
@@ -54,5 +55,5 @@
                 {{ __('login With Google') }}
                 </a>
             </x-primary-button>
-    </form>
+    </div>
 </x-guest-layout>

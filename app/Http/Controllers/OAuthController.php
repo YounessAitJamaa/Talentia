@@ -14,7 +14,7 @@ class OAuthController extends Controller
      $githubUser = Socialite::driver('github')->user();
 
     $user = User::updateOrCreate([
-        'github_id' => $githubUser->id,
+        'email' => $githubUser->email,
     ], [
         'name' => $githubUser->name,
         'role' => 'chercheur',
@@ -29,14 +29,17 @@ class OAuthController extends Controller
             'photo'=> $githubUser->getAvatar()
         ]);
 
+if ($user->wasRecentlyCreated) {
     return redirect('/choseRole');
+}
+    return redirect('/dashboard');
     }
 
     public function loginGoogle() {
     $googleUser = Socialite::driver('google')->user();
 
     $user = User::updateOrCreate([
-        'google_id' => $googleUser->id,
+        'email' => $googleUser->email,
     ], [
         'name' => $googleUser->name,
         'role' => 'chercheur',
