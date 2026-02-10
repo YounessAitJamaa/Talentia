@@ -8,6 +8,8 @@ use App\Http\Controllers\FriendshipController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\MessageController;
+use App\Livewire\JobApplications;
+use App\Livewire\RecruiterDashboard;
 
 Route::get('/', function () {
     return view('welcome');
@@ -31,7 +33,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/friends', [FriendshipController::class, 'showFriendsList'])->name('friends');
 
-    Route::get('/messages', [MessageController::class, 'show'])->name('messages.show');
+    Route::get('/messages/{id}', [MessageController::class, 'show'])->name('messages.show');
+    Route::post('/messages/send', [MessageController::class, 'send'])->name('messages.send');
 });
 
 Route::middleware('auth')->group(function () {
@@ -41,7 +44,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/community/{user}', [CommunityController::class, 'show'])
         ->name('community.show');
 
-    Route::get('/my-jobs', App\Livewire\RecruiterDashboard::class)->name('recruiter.dashboard');
-    Route::get('/jobs/{jobId}/applications', App\Livewire\JobApplications::class)->name('job.applications');
+    Route::get('/my-jobs', RecruiterDashboard::class)->name('recruiter.dashboard');
+    Route::get('/jobs/{jobId}/applications', JobApplications::class)->name('job.applications');
 });
+
 require __DIR__ . '/auth.php';
