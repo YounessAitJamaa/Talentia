@@ -92,5 +92,14 @@ class User extends Authenticatable
         return $this->belongsToMany(Skill::class);
     }
 
+    public function friendshipsSent()
+    {
+        return $this->hasMany(Friendship::class, 'user_id');
+    }
+
+    public function friendshipsReceived()
+    {
+        return $this->hasMany(Friendship::class, 'friend_id');
+    }
 }
 

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 class ManageEducation extends Component
 {
     public $educations;
+    
     public $school, $degree, $field_of_study, $start_date, $end_date;
     public $education_id;
     public $isOpen = false;
