@@ -42,8 +42,8 @@
                         </x-nav-link>
                     @endif
 
-                    <x-nav-link :href="route('friends')" :active="request()->routeIs('friends')">
-                        {{ __('Friends') }}
+                    <x-nav-link :href="route('messages.show')" :active="request()->routeIs('messages.*')">
+                        {{ __('Messages') }}
                     </x-nav-link>
 
                     <a href="{{ route('friendships.index') }}"

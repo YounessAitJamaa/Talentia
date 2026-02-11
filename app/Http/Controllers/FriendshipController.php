@@ -20,26 +20,23 @@ class FriendshipController extends Controller
         return view('friendships.index', compact('invitations'));
     }
 
-    public function showFriendsList()
-    {
-        $userId = Auth::id();
+    // public function showFriendsList()
+    // {
+    //     $userId = Auth::id();
 
-        // Get all friends where the user is either the sender or the receiver of an accepted friendship
-        $friends = User::where(function ($query) use ($userId) {
-            $query->whereHas('friendshipsReceived', function ($q) use ($userId) {
-                $q->where('user_id', $userId)->where('status', 'accepted');
-            })
-                ->orWhereHas('friendshipsSent', function ($q) use ($userId) {
-                    $q->where('friend_id', $userId)->where('status', 'accepted');
-                });
-        })
-            ->with('profile') // Eager load the profile
-            ->paginate(10);
+    //     $friends = User::where(function ($query) use ($userId) {
+    //         $query->whereHas('friendshipsReceived', function ($q) use ($userId) {
+    //             $q->where('user_id', $userId)->where('status', 'accepted');
+    //         })
+    //             ->orWhereHas('friendshipsSent', function ($q) use ($userId) {
+    //                 $q->where('friend_id', $userId)->where('status', 'accepted');
+    //             });
+    //     })
+    //         ->with('profile')
+    //         ->paginate(10);
 
-        return view('friendships.friendsList', compact('friends'));
-    }
-
-
+    //     return view('friendships.friendsList', compact('friends'));
+    // }
 
     public function sendRequest($friendId)
     {
