@@ -39,7 +39,6 @@ Route::get('/dashboard', [ProfileController::class, 'index'])->middleware(['auth
 Route::get('/profile/{id}', [ProfileController::class, 'show'])->middleware(['auth'])->name('profile.show');
 
 Route::middleware('auth')->group(function () {
-
     Route::post('/friendship/send/{id}', [FriendshipController::class, 'sendRequest'])->name('friendship.send');
     Route::post('/friendship/accept/{id}', [FriendshipController::class, 'acceptRequest'])->name('friendship.accept');
     Route::post('/friendship/reject/{id}', [FriendshipController::class, 'rejectRequest'])->name('friendship.reject');
@@ -69,4 +68,7 @@ Route::middleware('auth')->group(function () {
 /////////////////////////
 //stripe
 Route::get('/subscribe', [PremiumController::class,'subscribe'])->name('subscribe');
+Route::view('sucess', 'sucess_payement')->name('sucess');
+Route::view('cancel', 'cancel_payement')->name('cancel');
+
 require __DIR__ . '/auth.php';
