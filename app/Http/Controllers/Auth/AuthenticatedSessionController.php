@@ -38,7 +38,10 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
 
         $user = $request->user();
+
+        // Force la mise à jour même si status n'est pas fillable
         $user->update(['status' => 'online']);
+        $user->forceFill(['status' => 'online'])->save();
 
         broadcast(new UserStatusUpdated($user->id, 'online'));
 
@@ -51,12 +54,12 @@ class AuthenticatedSessionController extends Controller
      */
     
 
-    public function destroy(Request $request)
+    public function destroy(Request $request): RedirectResponse
     {
         $user = $request->user();
 
         if ($user) {
-            $user->update(['status' => 'offline']);
+            $user->forceFill(['status' => 'offline'])->save();
             broadcast(new UserStatusUpdated($user->id, 'offline'));
         }
 
@@ -66,4 +69,5 @@ class AuthenticatedSessionController extends Controller
 
         return redirect('/');
     }
+
 }

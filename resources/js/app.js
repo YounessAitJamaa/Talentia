@@ -79,3 +79,22 @@ const addMessage = (message) => {
     chatMessages.insertAdjacentHTML('beforeend', html);
     chatMessages.scrollTop = chatMessages.scrollHeight;
 };
+
+
+function applyStatus(userId, status) {
+  document.querySelectorAll(`[data-status-dot="${userId}"]`).forEach(el => {
+    el.classList.toggle('bg-green-500', status === 'online');
+    el.classList.toggle('bg-gray-500', status !== 'online');
+  });
+
+  document.querySelectorAll(`[data-status-text="${userId}"]`).forEach(el => {
+    el.textContent = status === 'online' ? 'En ligne' : 'Hors ligne';
+    el.classList.toggle('text-green-600', status === 'online');
+    el.classList.toggle('text-gray-500', status !== 'online');
+  });
+}
+
+window.Echo.channel('user-status')
+  .listen('.user.status', (e) => {
+    applyStatus(e.userId, e.status);
+  });

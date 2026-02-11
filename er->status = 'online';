@@ -1,0 +1,19 @@
+[90m= [39m[34;4mApp\Models\User[39;24m {#6505
+    [34mid[39m: [35m15[39m,
+    [34mname[39m: "[32mfola[39m",
+    [34memail[39m: "[32mfola@gmail.com[39m",
+    [34memail_verified_at[39m: [36mnull[39m,
+    #[33mpassword[39m: "[32m$2y$12$46I0osZtjdCW9nxNDeBXee4ERWNCxOMdiUZFcuA4e46pJ8DEYIlKu[39m",
+    [34mrole[39m: "[32mrecruteur[39m",
+    #[33mremember_token[39m: [36mnull[39m,
+    [34mcreated_at[39m: "[32m2026-02-11 13:26:52[39m",
+    [34mupdated_at[39m: "[32m2026-02-11 13:26:52[39m",
+    [34mstatus[39m: "[32moffline[39m",
+    [34mgoogle_id[39m: [36mnull[39m,
+    [34mgoogle_token[39m: [36mnull[39m,
+    [34mgoogle_refresh_token[39m: [36mnull[39m,
+    [34mgithub_id[39m: [36mnull[39m,
+    [34mgithub_token[39m: [36mnull[39m,
+    [34mgithub_refresh_token[39m: [36mnull[39m,
+  }
+

@@ -58,6 +58,8 @@
                                     <div class="w-16 h-16 rounded-full bg-indigo-100 flex items-center justify-center font-extrabold text-indigo-700 text-2xl ring-4 ring-white border border-slate-200">
                                         {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
                                     </div>
+                                   
+
                                 @endif
                             </div>
 
