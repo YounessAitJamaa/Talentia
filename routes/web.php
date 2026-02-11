@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\OAuthController;
+use App\Http\Controllers\PremiumController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
@@ -67,5 +68,6 @@ Route::middleware('auth')->group(function () {
 });
 /////////////////////////
 //stripe
+Route::get('/subscribe', [PremiumController::class,'subscribe'])->name('subscribe');
 
 require __DIR__ . '/auth.php';
