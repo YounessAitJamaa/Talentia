@@ -66,12 +66,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/my-jobs', RecruiterDashboard::class)->name('recruiter.dashboard');
     Route::get('/jobs/{jobId}/applications', JobApplications::class)->name('job.applications');
 });
-<<<<<<< HEAD
-    Route::get('/jobs/{jobId}/applications', App\Livewire\JobApplications::class)->name('job.applications');
-=======
 /////////////////////////
 //stripe
 Route::get('/subscribe', [PremiumController::class,'subscribe'])->name('subscribe');
-
->>>>>>> e19d7f4da846572a79901f39603255f914401c49
 require __DIR__ . '/auth.php';
