@@ -67,6 +67,5 @@ Route::middleware('auth')->group(function () {
 });
 /////////////////////////
 //stripe
-Route::get('premium',PremiumController::class,'subscribe' )->name('premium');
 
 require __DIR__ . '/auth.php';
