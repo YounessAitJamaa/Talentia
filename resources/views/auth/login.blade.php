@@ -44,4 +44,16 @@
             </x-primary-button>
         </div>
     </form>
+    <div class = "flex flex-col gap-3 items-center mt-6">
+            <x-primary-button class="ms-4">
+                <a href="auth/github/redirect">
+                {{ __('login With Github') }}
+                </a>
+            </x-primary-button>
+            <x-primary-button class="ms-4">
+                <a href="auth/google/redirect">
+                {{ __('login With Google') }}
+                </a>
+            </x-primary-button>
+    </div>
 </x-guest-layout>

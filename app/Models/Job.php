@@ -16,8 +16,19 @@ class Job extends Model
         'is_closed'
     ];
 
-    
-    public function recruteur() {
+
+    public function recruteur()
+    {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function applications()
+    {
+        return $this->hasMany(Application::class);
+    }
+
+    public function skills()
+    {
+        return $this->belongsToMany(Skill::class);
     }
 }

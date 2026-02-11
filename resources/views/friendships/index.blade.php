@@ -25,7 +25,12 @@
                                     Accepter
                                 </button>
                             </form>
-                            
+                            <form action="{{ route('friendship.reject', $invite->id) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-red-700">
+                                    Rejeter
+                                </button>
+                            </form>
                             </div>
                     </div>
                 @empty
@@ -36,5 +41,5 @@
         </div>
 
             
-    </div>
+    </div>  
 </x-app-layout>
