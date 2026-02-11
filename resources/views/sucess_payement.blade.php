@@ -1,3 +1,4 @@
 <div>
-    <!-- I have not failed. I've just found 10,000 ways that won't work. - Thomas Edison -->
+    <h1>Achat effectué avec succes</h1>
+    <a href="dashboard">Retour</a>
 </div>
