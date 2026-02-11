@@ -47,4 +47,19 @@ class UserStatusUpdated  implements ShouldBroadcast
     {
         return 'user.status.updated';
     }
+
+
+    public function broadcastWith()
+    {
+        return [
+            'userId' => $this->userId,
+            'status' => $this->status,
+        ];
+    }
+
+   
 }
+
+
+
+

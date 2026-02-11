@@ -8,6 +8,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use App\Events\UserStatusUpdated;
+
 
 class AuthenticatedSessionController extends Controller
 {
@@ -22,14 +24,29 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request): RedirectResponse
+    
+
+   public function store(Request $request)
     {
-        $request->authenticate();
+        // Validation avec $request->validate()
+        $validated = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
 
-        $request->session()->regenerate();
+        // Authentifier l'utilisateur
+        if (Auth::attempt($validated)) {
+            $user = Auth::user();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+            // Diffuser l'événement de statut en ligne
+            event(new UserStatusUpdated($user->id, 'online'));
+
+            return redirect()->intended('/dashboard');
+        }
+
+        return back()->withErrors(['email' => 'Les informations d\'identification sont incorrectes.']);
     }
+
 
     /**
      * Destroy an authenticated session.
@@ -54,4 +71,6 @@ class AuthenticatedSessionController extends Controller
 
         return redirect('/');
     }
+
+
 }

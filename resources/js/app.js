@@ -6,12 +6,9 @@ import './bootstrap';
 
 // Alpine.start();
 
-
-
-window.Echo.private('user-status.' + userId)
-    .listen('UserStatusUpdated', (event) => {
-        const statusIndicator = document.querySelector(`#user-${event.userId} .status-indicator`);
-        const statusText = document.querySelector(`#user-${event.userId} .status-text`);
+window.Echo.private('user-status.' + userId).listen('UserStatusUpdated', (event) => {
+        const statusIndicator = document.querySelector(`#status-indicator-${event.userId}`);
+        const statusText = document.querySelector(`#status-text-${event.userId}`);
 
         if (event.status === 'online') {
             statusIndicator.classList.add('bg-green-500');
@@ -23,3 +20,5 @@ window.Echo.private('user-status.' + userId)
             statusText.textContent = 'Hors ligne';
         }
     });
+
+
