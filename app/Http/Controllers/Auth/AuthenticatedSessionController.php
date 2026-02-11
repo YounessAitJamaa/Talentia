@@ -8,6 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use App\Events\UserStatusUpdated;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -22,14 +23,28 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request): RedirectResponse
+
+    public function store(Request $request)
     {
-        $request->authenticate();
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
+
+        if (! Auth::attempt($credentials)) {
+            return back()->withErrors(['email' => 'Identifiants incorrects.']);
+        }
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        $user = $request->user();
+        $user->update(['status' => 'online']);
+
+        broadcast(new UserStatusUpdated($user->id, 'online'));
+
+        return redirect()->intended('/dashboard');
     }
+
 
     /**
      * Destroy an authenticated session.
