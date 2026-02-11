@@ -55,22 +55,6 @@
                 <div class="text-right hidden md:block">
                     <div class="text-sm font-bold text-gray-900 leading-none">{{ Auth::user()->name }}</div>
                     <div class="text-xs text-gray-500">{{ ucfirst(Auth::user()->role) }}</div>
-                      {{-- test de status -----}}
-
-                            <div class="flex items-center gap-2">
-                                <!-- Indicateur de statut -->
-                                <span class="inline-block w-3 h-3 rounded-full 
-                                    @if(auth()->user()->status == 'online') bg-green-500 
-                                    @else bg-gray-500 @endif"></span>
-
-                                <span class="text-sm text-gray-600">
-                                    @if(auth()->user()->status == 'online')
-                                        En ligne
-                                    @else
-                                        Hors ligne
-                                    @endif
-                                </span>
-                            </div>
                 </div>
 
                 <x-dropdown align="right" width="48">

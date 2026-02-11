@@ -32,6 +32,9 @@
                     <p class="text-center text-gray-500">Vous n'avez aucune invitation en attente.</p>
                 @endforelse
             </div>
+
         </div>
+
+            
     </div>
 </x-app-layout>

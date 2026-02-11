@@ -6,13 +6,20 @@ import './bootstrap';
 
 // Alpine.start();
 
-window.Echo.private('user-status.' + userId) // userId = ID de l'utilisateur connecté
+
+
+window.Echo.private('user-status.' + userId)
     .listen('UserStatusUpdated', (event) => {
+        const statusIndicator = document.querySelector(`#user-${event.userId} .status-indicator`);
+        const statusText = document.querySelector(`#user-${event.userId} .status-text`);
+
         if (event.status === 'online') {
-            document.getElementById('status-indicator').classList.add('bg-green-500');
-            document.getElementById('status-indicator').classList.remove('bg-gray-500');
+            statusIndicator.classList.add('bg-green-500');
+            statusIndicator.classList.remove('bg-gray-500');
+            statusText.textContent = 'En ligne';
         } else {
-            document.getElementById('status-indicator').classList.add('bg-gray-500');
-            document.getElementById('status-indicator').classList.remove('bg-green-500');
+            statusIndicator.classList.add('bg-gray-500');
+            statusIndicator.classList.remove('bg-green-500');
+            statusText.textContent = 'Hors ligne';
         }
     });
