@@ -54,4 +54,5 @@ Route::middleware('auth')->group(function () {
     Route::get('/my-jobs', App\Livewire\RecruiterDashboard::class)->name('recruiter.dashboard');
     Route::get('/jobs/{jobId}/applications', App\Livewire\JobApplications::class)->name('job.applications');
 });
+    Route::get('/jobs/{jobId}/applications', App\Livewire\JobApplications::class)->name('job.applications');
 require __DIR__ . '/auth.php';
