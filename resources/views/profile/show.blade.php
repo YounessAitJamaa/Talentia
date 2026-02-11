@@ -76,6 +76,10 @@
                                 class="px-6 py-2 rounded-full border border-gray-300 font-bold hover:bg-gray-50 transition">
                                     Modifier mon profil
                                 </a>
+                        <a href="{{ route('subscribe') }}"
+                                class="px-6 py-2 rounded-full border border-gray-300 font-bold hover:bg-gray-50 transition">
+                                    Devenir premium
+                                </a>
                             @endif
                         </div>
 

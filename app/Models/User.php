@@ -12,7 +12,7 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasRoles,Billable;
+    use HasFactory, Notifiable, HasRoles, Billable;
 
     /**
      * The attributes that are mass assignable.
@@ -93,5 +93,14 @@ class User extends Authenticatable
         return $this->belongsToMany(Skill::class);
     }
 
+    public function friendshipsSent()
+    {
+        return $this->hasMany(Friendship::class, 'user_id');
+    }
+
+    public function friendshipsReceived()
+    {
+        return $this->hasMany(Friendship::class, 'friend_id');
+    }
 }
 

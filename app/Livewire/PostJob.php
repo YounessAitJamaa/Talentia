@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\Skill;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Models\Job;
@@ -28,7 +29,7 @@ class PostJob extends Component
 
     public function mount()
     {
-        $this->availableSkills = \App\Models\Skill::all();
+        $this->availableSkills = Skill::all();
     }
 
     public function save()

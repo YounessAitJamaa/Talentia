@@ -42,13 +42,13 @@
                                             class="text-orange-600 hover:text-orange-900 ml-4">Clôturer</button>
                                     @endif
 
-                                    <button wire:click="deleteJob({{ $job->id }})"
-                                        class="text-red-600 hover:text-red-900 ml-4"
-                                        onclick="confirm('Êtes-vous sûr ?') || event.stopImmediatePropagation()">Supprimer</button>
+                                        <button wire:click="deleteJob({{ $job->id }})"
+                                            class="text-red-600 hover:text-red-900 ml-4"
+                                            onclick="confirm('Êtes-vous sûr ?') || event.stopImmediatePropagation()">Supprimer</button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </li>
+                        </li>
                 @empty
                     <li class="px-4 py-4 sm:px-6 text-center text-gray-500">
                         Vous n'avez publié aucune offre.
