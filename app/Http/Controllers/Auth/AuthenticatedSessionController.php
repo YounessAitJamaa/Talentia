@@ -36,6 +36,16 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
+
+        $user = auth()->user();
+        if ($user) {
+            $user->status = 'offline';
+            $user->save();
+
+            // Diffuser l'événement de mise à jour du statut
+            broadcast(new UserStatusUpdated($user->id, 'offline'));
+        }
+
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();
