@@ -11,6 +11,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 
+
 class UserStatusUpdated implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
@@ -34,23 +35,25 @@ class UserStatusUpdated implements ShouldBroadcastNow
      */
     public function broadcastOn(): array
     {
-         return new Channel('user-status.' . $this->userId); 
+        return [new Channel('user-status.' . $this->userId)];
     }
 
-     public function broadcastAs()
+    public function broadcastAs(): string
     {
         return 'user.status.updated';
     }
 
-
-    public function broadcastWith()
+    public function broadcastWith(): array
     {
         return [
             'userId' => $this->userId,
             'status' => $this->status,
         ];
     }
+
 }
+
+
 
 
 

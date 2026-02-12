@@ -94,7 +94,9 @@ function applyStatus(userId, status) {
   });
 }
 
+
 window.Echo.channel('user-status')
-  .listen('.user.status', (e) => {
+  .listen('.user.status.updated', (e) => {
     applyStatus(e.userId, e.status);
   });
+
