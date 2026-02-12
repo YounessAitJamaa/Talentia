@@ -75,7 +75,11 @@
                                                     {{ strtoupper(substr($convUser->name, 0, 1)) }}
                                                 </div>
                                             @endif
-                                            <span class="absolute bottom-0 right-0 block h-3 w-3 rounded-full border-2 border-white bg-green-500"></span>
+                                            <!--<span class="absolute bottom-0 right-0 block h-3 w-3 rounded-full border-2 border-white bg-green-500"></span>-->
+                                            <span data-role="status-dot" data-user-id="{{ $convUser->id }}" class="absolute bottom-0 right-0 block h-3 w-3 rounded-full border-2 border-white
+                                                {{ $convUser->status === 'online' ? 'bg-green-500' : 'bg-gray-400' }}">
+                                            </span>
+
                                         </div>
                                         <div class="min-w-0 flex-1">
                                             <div class="flex items-center justify-between">
@@ -110,14 +114,20 @@
                                             {{ strtoupper(substr($receiver->name, 0, 1)) }}
                                         </div>
                                     @endif
-                                    <span class="absolute bottom-0 right-0 block h-3 w-3 rounded-full border-2 border-white bg-green-500"></span>
+
+                                    <span data-role="status-dot" data-user-id="{{ $receiver->id }}" class="absolute bottom-0 right-0 block h-3 w-3 rounded-full border-2 border-white bg-green-500
+                                        {{ $receiver->status === 'online' ? 'bg-green-500' : 'bg-gray-400' }}">
+                                        </span>
+                                        <span data-role="status-text" data-user-id="{{ $receiver->id }}"
+                                            class="text-xs font-semibold flex items-center gap-1
+                                            {{ $receiver->status === 'online' ? 'text-green-600' : 'text-gray-500' }}">
+                                            {{ $receiver->status === 'online' ? 'En ligne' : 'Hors ligne' }}
+                                        </span>
                                 </div>
+
                                 <div class="min-w-0">
                                     <h5 class="text-sm font-semibold text-gray-800 truncate">{{ $receiver->name }}</h5>
-                                    <p class="text-xs text-green-500 flex items-center gap-1">
-                                        <span class="h-1.5 w-1.5 rounded-full bg-green-500"></span>
-                                        Online
-                                    </p>
+                                   
                                 </div>
                             </div>
                         </div>
