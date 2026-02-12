@@ -41,13 +41,13 @@
         </div>
 
         {{-- 3 column layout --}}
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 py-6">
+        <div class="mx-auto px-4 sm:px-6 py-6">
             <div class="grid grid-cols-12 gap-6">
 
                 {{-- LEFT: Profile --}}
                 <aside class="col-span-12 md:col-span-4 lg:col-span-3 space-y-4">
                     <div class="bg-white border border-slate-200 rounded-lg overflow-hidden">
-                        <div class="h-14 bg-gradient-to-r from-indigo-600 to-indigo-400"></div>
+                        <div class="h-32 bg-gradient-to-r from-indigo-600 to-indigo-400"></div>
 
                         <div class="p-4">
                             <div class="-mt-9 flex items-end gap-3">
@@ -62,11 +62,11 @@
                             </div>
 
                             <div class="mt-3">
-                                <p class="font-extrabold text-slate-900">{{ auth()->user()->name }}</p>
-                                <p class="text-sm text-slate-600">
+                                <p class="font-extrabold text-[30px] text-slate-900">{{ auth()->user()->name }}</p>
+                                <h1 class="text-lg text-slate-600">
                                     {{ auth()->user()->profile?->specialty ?? 'Talent Talentia' }}
-                                </p>
-                                <p class="mt-2 inline-flex text-[11px] font-black uppercase tracking-widest text-indigo-700 bg-indigo-50 px-2 py-1 rounded">
+                                </h1>
+                                <p class="mt-2 inline-flex text-[15px] font-black uppercase tracking-widest text-indigo-700 bg-indigo-50 px-2 py-1 rounded">
                                     {{ auth()->user()->role }}
                                 </p>
                             </div>

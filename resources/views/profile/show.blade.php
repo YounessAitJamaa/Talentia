@@ -65,7 +65,7 @@
                                     <form action="{{ route('friendship.send', $user->id) }}" method="POST">
                                         @csrf
                                         <button type="submit"
-                                            class="bg-indigo-600 text-white px-6 py-2 rounded-full font-bold hover:bg-indigo-700 transition">
+                                    e         class="bg-indigo-600 text-white px-6 py-2 rounded-full font-bold hover:bg-indigo-700 transition">
                                             Suivre
                                         </button>
                                     </form>

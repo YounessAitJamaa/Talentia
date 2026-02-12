@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Contracts\View\View;
+
 
 class PremiumController extends Controller
 {
@@ -10,6 +12,9 @@ class PremiumController extends Controller
     return $subscription = $user->newSubscription('monthly','price_1Szf9MK6HI9csIyLUxQ3Hh4D')
             ->checkout(['success_url'=>route('sucess'),'cancel_url'=>route('cancel')]);
     }
+    /**
+     * @return View
+     */
     public function sucess() {
         $user = auth()->user();
         $user->hasPremium = true;
