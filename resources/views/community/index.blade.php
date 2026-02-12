@@ -63,9 +63,9 @@
                                     @if(Auth::id() !== $u->id)
 
                                         @if($status === 'accepted')
-                                            <a href="{{ route('profile.show', $u->id) }}"
+                                            <a href="{{ route('messages.show', $u->id) }}"
                                             class="px-3 py-1.5 rounded-full border border-slate-300 hover:bg-slate-50 transition text-xs font-extrabold">
-                                                Connecté
+                                                Message
                                             </a>
 
                                         @elseif($status === 'pending')
