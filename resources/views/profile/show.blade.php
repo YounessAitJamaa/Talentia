@@ -76,7 +76,11 @@
                                 class="px-6 py-2 rounded-full border border-gray-300 font-bold hover:bg-gray-50 transition">
                                     Modifier mon profil
                                 </a>
-                        <a href="{{ route('subscribe') }}"
+                            @endif
+                                @if(auth()->user()->hasPremium)
+                                <img class="w-16 h-16"  src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%2Fid%2FOIP.Vt5Gv3hQiBUdpEKNkOc_DQHaHa%3Fpid%3DApi&f=1&ipt=c96ee8da06930b2ac5aa42314594f48e491dfb39790293ba4058076efd8aaa0c&ipo=images" alt="premium">
+                                @else
+                                <a href="{{ route('subscribe') }}"
                                 class="px-6 py-2 rounded-full border border-gray-300 font-bold hover:bg-gray-50 transition">
                                     Devenir premium
                                 </a>
