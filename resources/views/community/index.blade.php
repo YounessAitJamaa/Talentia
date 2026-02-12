@@ -49,6 +49,16 @@
                                         {{ $u->role }}
                                     </span>
                                 </div>
+                               
+                                <!-- Indicateur de statut en ligne/hors ligne -->
+                                <div class="mt-2 flex items-center gap-2">
+                                    <span class="text-xs text-gray-600">Statut:</span>
+                                    <span id="status-indicator-{{ $u->id }}" data-status-dot="{{ $u->id }}" class="w-3 h-3 rounded-full 
+                                        {{ $u->status === 'online' ? 'bg-green-500' : 'bg-gray-500' }}"></span>
+                                    <span id="status-text-{{ $u->id }}" data-status-text="{{ $u->id }}" class="text-xs {{ $u->status === 'online' ? 'text-green-600' : 'text-gray-500' }}">
+                                        {{ $u->status === 'online' ? 'En ligne' : 'Hors ligne' }}
+                                    </span>
+                                </div>
 
                                 <div class="mt-3 flex gap-2">
                                     <a href="{{ route('profile.show', $u->id) }}"

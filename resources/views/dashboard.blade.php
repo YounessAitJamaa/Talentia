@@ -58,6 +58,8 @@
                                     <div class="w-16 h-16 rounded-full bg-indigo-100 flex items-center justify-center font-extrabold text-indigo-700 text-2xl ring-4 ring-white border border-slate-200">
                                         {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
                                     </div>
+                                   
+
                                 @endif
                             </div>
 
@@ -136,12 +138,15 @@
                                     @else
                                         <div class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center font-extrabold text-slate-700">
                                             {{ strtoupper(substr($u->name, 0, 1)) }}
+                                             
                                         </div>
                                     @endif
 
                                     <div class="min-w-0 flex-1">
                                         <p class="text-sm font-extrabold text-slate-900 truncate">{{ $u->name }}</p>
+                                       
                                         <p class="text-xs text-slate-500 truncate">{{ $u->profile?->specialty ?? 'Talent Talentia' }}</p>
+                                        
                                     </div>
 
                                     <form action="{{ route('friendship.send', $u->id) }}" method="POST">
