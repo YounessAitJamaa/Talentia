@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\MessageSent;
+use App\Models\Friendship;
 use App\Models\Message;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -12,29 +13,27 @@ class MessageController extends Controller
 {
     public function show($id = null)
     {
-        $conversations = User::whereHas('sentMessages', function ($query) {
-            $query->where('receiver_id', auth()->id());
-        })->orWhereHas('receivedMessages', function ($query) {
-            $query->where('sender_id', auth()->id());
-        })->with('profile')->get();
+        $user = auth()->user();
+        $conversations = $user->friends()->with('profile')->get();
 
         $receiver = null;
         $messages = collect();
 
         if ($id) {
-            $receiver = User::findOrFail($id);
-        } elseif ($conversations->isNotEmpty()) {
+            $receiver = User::with('profile')->findOrFail($id);
+        } else {
             // Find the last user we exchanged messages with
-            $lastMessage = Message::where('sender_id', auth()->id())
-                ->orWhere('receiver_id', auth()->id())
+            $lastMessage = Message::where('sender_id', $user->id)
+                ->orWhere('receiver_id', $user->id)
                 ->latest()
                 ->first();
 
             if ($lastMessage) {
-                $partnerId = ($lastMessage->sender_id == auth()->id()) ? $lastMessage->receiver_id : $lastMessage->sender_id;
-                $receiver = User::find($partnerId);
+                $partnerId = ($lastMessage->sender_id == $user->id) ? $lastMessage->receiver_id : $lastMessage->sender_id;
+                $receiver = User::with('profile')->find($partnerId);
             }
 
+            // If no messages yet, default to the first friend in the list
             if (!$receiver && $conversations->isNotEmpty()) {
                 $receiver = $conversations->first();
             }
@@ -42,13 +41,13 @@ class MessageController extends Controller
 
         if ($receiver) {
             $messages = Message::query()
-                ->where(function ($query) use ($receiver) {
-                    $query->where('sender_id', auth()->id())
+                ->where(function ($query) use ($receiver, $user) {
+                    $query->where('sender_id', $user->id)
                         ->where('receiver_id', $receiver->id);
                 })
-                ->orWhere(function ($query) use ($receiver) {
+                ->orWhere(function ($query) use ($receiver, $user) {
                     $query->where('sender_id', $receiver->id)
-                        ->where('receiver_id', auth()->id());
+                        ->where('receiver_id', $user->id);
                 })
                 ->orderBy('created_at', 'asc')
                 ->get();

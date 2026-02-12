@@ -102,5 +102,13 @@ class User extends Authenticatable
     {
         return $this->hasMany(Friendship::class, 'friend_id');
     }
+
+    public function friends()
+    {
+        $friendsSent = $this->friendshipsSent()->where('status', 'accepted')->pluck('friend_id');
+        $friendsReceived = $this->friendshipsReceived()->where('status', 'accepted')->pluck('user_id');
+
+        return User::whereIn('id', $friendsSent->merge($friendsReceived));
+    }
 }
 
