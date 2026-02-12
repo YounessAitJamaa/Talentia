@@ -7,11 +7,12 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 window.Echo = new Echo({
     broadcaster: 'reverb',
-    key: 'local',
-    wsHost: window.location.hostname,
-    wsPort: 8080,
-    forceTLS: false,
-    disableStats: true,
+    // key: 'local',
+    // wsHost: '127.0.0.1',
+    // wsPort: 8080,
+    // forceTLS: false,
+    // encrypted: false,
+    // enabledTransports: ['ws'],
 });
 
 /**

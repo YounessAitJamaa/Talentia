@@ -6,11 +6,11 @@ use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class FriendRequestSent
+class FriendRequestSent implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -21,17 +21,25 @@ class FriendRequestSent
      */
     public function __construct($sender, $receiverId)
     {
-        $this->$sender = $sender;
+        // \Log::info("Event constructed for user: " . $receiverId);
+
+        $this->sender = $sender;
         $this->receiverId = $receiverId;
     }
 
     /**
      * Get the channels the event should broadcast on.
      *
-     * @return array<int, \Illuminate\Broadcasting\Channel>
+     * @return <int, \Illuminate\Broadcasting\Channel>
      */
     public function broadcastOn()
     {
         return new Channel('user.' . $this->receiverId);
     }
+
+    // public function broadcastAs()
+    // {
+    //     return 'friend.request.sent';
+    // }
+
 }
