@@ -43,8 +43,7 @@ class AuthenticatedSessionController extends Controller
         $user->update(['status' => 'online']);
         $user->forceFill(['status' => 'online'])->save();
 
-        broadcast(new UserStatusUpdated($user->id, 'online'));
-
+        broadcast(new \App\Events\UserStatusUpdated($user->id, 'online'));
         return redirect()->intended('/dashboard');
     }
 
@@ -60,7 +59,7 @@ class AuthenticatedSessionController extends Controller
 
         if ($user) {
             $user->forceFill(['status' => 'offline'])->save();
-            broadcast(new UserStatusUpdated($user->id, 'offline'));
+            broadcast(new \App\Events\UserStatusUpdated($user->id, 'offline'));
         }
 
         Auth::guard('web')->logout();

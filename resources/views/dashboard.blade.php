@@ -144,16 +144,9 @@
 
                                     <div class="min-w-0 flex-1">
                                         <p class="text-sm font-extrabold text-slate-900 truncate">{{ $u->name }}</p>
-                                        <span
-                                                data-status-dot="{{ $u->id }}"
-                                                class="w-2.5 h-2.5 rounded-full {{ $u->status === 'online' ? 'bg-green-500' : 'bg-slate-400' }}">
-                                            </span>
+                                       
                                         <p class="text-xs text-slate-500 truncate">{{ $u->profile?->specialty ?? 'Talent Talentia' }}</p>
-                                          <span
-                                                data-status-text="{{ $u->id }}"
-                                                class="text-[10px] font-bold {{ $u->status === 'online' ? 'text-green-600' : 'text-slate-500' }}">
-                                                {{ $u->status === 'online' ? 'En ligne' : 'Hors ligne' }}
-                                            </span>
+                                        
                                     </div>
 
                                     <form action="{{ route('friendship.send', $u->id) }}" method="POST">
