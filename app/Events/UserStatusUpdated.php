@@ -35,7 +35,7 @@ class UserStatusUpdated implements ShouldBroadcastNow
      */
     public function broadcastOn(): array
     {
-        return [new Channel('user-status.' . $this->userId)];
+        return [new Channel('user-status')];
     }
 
     public function broadcastAs(): string
