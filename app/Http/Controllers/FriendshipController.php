@@ -6,6 +6,8 @@ use App\Models\Friendship;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Events\FriendRequestSent;
+
 
 class FriendshipController extends Controller
 {
@@ -41,6 +43,8 @@ class FriendshipController extends Controller
                 'friend_id' => $friendId,
                 'status' => 'pending',
             ]);
+            event(new FriendRequestSent(auth()->user(), $friendId));
+
             return back()->with('status', 'Demande de connexion envoyée !');
         }
 
