@@ -176,4 +176,11 @@
             </div>
         </div>
     </div>
+
+    <!-- <script>
+        Echo.channel('user.{{ auth()->id() }}')
+            .listen('FriendRequestSent', (e) => {
+                alert(e.sender.name + " sent you a friend request!");
+            });
+    </script> -->
 </x-app-layout>
