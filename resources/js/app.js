@@ -82,48 +82,37 @@ const addMessage = (message) => {
 
 
 function applyStatus(userId, status) {
-  document.querySelectorAll(`[data-status-dot="${userId}"]`).forEach(el => {
-    el.classList.toggle('bg-green-500', status === 'online');
-    el.classList.toggle('bg-gray-500', status !== 'online');
-  });
+    document.querySelectorAll(`[data-status-dot="${userId}"]`).forEach(el => {
+        el.classList.toggle('bg-green-500', status === 'online');
+        el.classList.toggle('bg-gray-500', status !== 'online');
+    });
 
-  document.querySelectorAll(`[data-status-text="${userId}"]`).forEach(el => {
-    el.textContent = status === 'online' ? 'En ligne' : 'Hors ligne';
-    el.classList.toggle('text-green-600', status === 'online');
-    el.classList.toggle('text-gray-500', status !== 'online');
-  });
+    document.querySelectorAll(`[data-status-text="${userId}"]`).forEach(el => {
+        el.textContent = status === 'online' ? 'En ligne' : 'Hors ligne';
+        el.classList.toggle('text-green-600', status === 'online');
+        el.classList.toggle('text-gray-500', status !== 'online');
+    });
 }
 
 
 window.Echo.channel('user-status')
-  .listen('.user.status.updated', (e) => {
-    applyStatus(e.userId, e.status);
-  });
+    .listen('.user.status.updated', (e) => {
+        const userId = String(e.userId);
+        const isOnline = e.status === 'online';
 
+        // dots
+        document.querySelectorAll(`[data-role="status-dot"][data-user-id="${userId}"]`)
+            .forEach(el => {
+                el.classList.toggle('bg-green-500', isOnline);
+                el.classList.toggle('bg-gray-400', !isOnline);
+            });
 
-  
-document.addEventListener('DOMContentLoaded', () => {
-    if (!window.Echo) return;
-
-    window.Echo.channel('user-status')
-        .listen('.user.status.updated', (e) => {
-            const userId = String(e.userId);
-            const isOnline = e.status === 'online';
-
-            // dots
-            document.querySelectorAll(`[data-role="status-dot"][data-user-id="${userId}"]`)
-                .forEach(el => {
-                    el.classList.toggle('bg-green-500', isOnline);
-                    el.classList.toggle('bg-gray-400', !isOnline);
-                });
-
-            // texts
-            document.querySelectorAll(`[data-role="status-text"][data-user-id="${userId}"]`)
-                .forEach(el => {
-                    el.textContent = isOnline ? 'Online' : 'Offline';
-                    el.classList.toggle('text-green-500', isOnline);
-                    el.classList.toggle('text-gray-500', !isOnline);
-                });
-        });
-});
+        // texts
+        document.querySelectorAll(`[data-role="status-text"][data-user-id="${userId}"]`)
+            .forEach(el => {
+                el.textContent = isOnline ? 'Online' : 'Offline';
+                el.classList.toggle('text-green-500', isOnline);
+                el.classList.toggle('text-gray-500', !isOnline);
+            });
+    });
 
