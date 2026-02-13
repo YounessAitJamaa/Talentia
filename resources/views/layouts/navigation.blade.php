@@ -24,6 +24,21 @@
                         <span class="text-[10px] text-center uppercase tracking-wider">Home</span>
                     </a>
 
+                    @role('recruteur')
+                    <a class="px-4 mt-1 gap-1 rounded-xl transition-all duration-200 ease-in-out flex flex-col items-center justify-center relative group border-b-2 {{ request()->routeIs('recruiter.dashboard') ? 'border-blue-600 text-blue-600 font-semibold' : 'border-transparent text-gray-500 hover:text-blue-600' }}"
+                        href="{{ route('recruiter.dashboard') }}">
+                        <div class="relative">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="h-6 w-6 transition-transform group-hover:scale-110">
+                                <rect width="20" height="14" x="2" y="7" rx="2" ry="2" />
+                                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+                            </svg>
+                        </div>
+                        <span class="text-[10px] text-center uppercase tracking-wider">My Offers</span>
+                    </a>
+                    @endrole
+
                     <a class="px-4 mt-1 gap-1 rounded-xl transition-all duration-200 ease-in-out flex flex-col items-center justify-center relative group border-b-2 {{ request()->routeIs('community.*') ? 'border-blue-600 text-blue-600 font-semibold' : 'border-transparent text-gray-500 hover:text-blue-600' }}"
                         href="{{ route('community.index') }}">
                         <div class="relative">
@@ -183,6 +198,12 @@
                 class="block px-4 py-3 rounded-xl text-base font-medium {{ request()->routeIs('dashboard') ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-50' }}">
                 Tableau de bord
             </a>
+            @role('recruteur')
+            <a href="{{ route('recruiter.dashboard') }}"
+                class="block px-4 py-3 rounded-xl text-base font-medium {{ request()->routeIs('recruiter.dashboard') ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-50' }}">
+                Mes Offres
+            </a>
+            @endrole
             <a href="{{ route('community.index') }}"
                 class="block px-4 py-3 rounded-xl text-base font-medium {{ request()->routeIs('community.*') ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-50' }}">
                 Communauté
