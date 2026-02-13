@@ -70,5 +70,4 @@ Route::middleware('auth')->group(function () {
 Route::get('/subscribe', [PremiumController::class,'subscribe'])->name('subscribe');
 Route::get('sucess', [PremiumController::class,'sucess'])->name('sucess');
 Route::view('cancel', 'cancel_payement')->name('cancel');
-
 require __DIR__ . '/auth.php';

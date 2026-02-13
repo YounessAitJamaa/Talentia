@@ -16,7 +16,7 @@ class OAuthController extends Controller
     $user = User::updateOrCreate([
         'email' => $githubUser->email,
     ], [
-        'name' => $githubUser->name,
+        'name' => $githubUser->nickname,
         'role' => 'chercheur',
         'email' => $githubUser->email,
         'github_token' => $githubUser->token,
