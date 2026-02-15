@@ -11,3 +11,4 @@ Artisan::command('inspire', function () {
 Schedule::command('premium:send-expiry-reminders')
     ->timezone('Africa/Casablanca')
     ->dailyAt('09:00');
+    
