@@ -113,7 +113,8 @@
                         <div class="hidden lg:block text-left mr-1">
                             <div class="text-xs font-semibold text-gray-900 leading-tight">{{ auth()->user()->name }}
                             </div>
-                            <div class="text-[10px] text-gray-500 font-medium">En ligne</div>
+                            <div class="text-[10px] text-gray-500 font-medium" data-status-text="{{ auth()->id() }}">En
+                                ligne</div>
                         </div>
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"

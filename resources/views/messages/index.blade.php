@@ -37,8 +37,8 @@
                                                     {{ strtoupper(substr($convUser->name, 0, 1)) }}
                                                 </div>
                                             @endif
-                                            <div data-role="status-dot" data-user-id="{{ $convUser->id }}"
-                                                class="absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-white {{ $convUser->status === 'online' ? 'bg-green-500' : 'bg-gray-400' }}">
+                                            <div data-status-dot="{{ $convUser->id }}"
+                                                class="absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-white {{ $convUser->status === 'online' ? 'bg-green-500' : 'bg-gray-500' }}">
                                             </div>
                                         </div>
                                         <div class="flex-1 min-w-0">
@@ -79,15 +79,15 @@
                                                     {{ strtoupper(substr($receiver->name, 0, 1)) }}
                                                 </div>
                                             @endif
-                                            <div data-role="status-dot" data-user-id="{{ $receiver->id }}"
-                                                class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full border-2 border-white {{ $receiver->status === 'online' ? 'bg-green-500' : 'bg-gray-400' }}">
+                                            <div data-status-dot="{{ $receiver->id }}"
+                                                class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full border-2 border-white {{ $receiver->status === 'online' ? 'bg-green-500' : 'bg-gray-500' }}">
                                             </div>
                                         </div>
                                         <div>
                                             <h2 class="font-medium text-gray-900">{{ $receiver->name }}</h2>
-                                            <p data-role="status-text" data-user-id="{{ $receiver->id }}"
+                                            <p data-status-text="{{ $receiver->id }}"
                                                 class="text-xs {{ $receiver->status === 'online' ? 'text-green-600' : 'text-gray-500' }}">
-                                                {{ $receiver->status === 'online' ? 'Online' : 'Offline' }}
+                                                {{ $receiver->status === 'online' ? 'En ligne' : 'Hors ligne' }}
                                             </p>
                                         </div>
                                     </div>
