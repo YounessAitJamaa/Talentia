@@ -52,6 +52,12 @@
                                     class="bg-white/90 backdrop-blur-sm px-2.5 py-1 rounded-lg text-[11px] font-extrabold uppercase tracking-wider text-indigo-700 shadow-sm">
                                     {{ $job->contract_type }}
                                 </span>
+                                @if($job->is_closed)
+                                    <span
+                                        class="bg-red-500/90 backdrop-blur-sm px-2.5 py-1 rounded-lg text-[11px] font-extrabold uppercase tracking-wider text-white shadow-sm">
+                                        Fermée
+                                    </span>
+                                @endif
                             </div>
 
                             @if(Auth::check() && Auth::user()->role === 'chercheur')
@@ -67,7 +73,7 @@
                         </div>
 
                         {{-- Bottom Section: Info --}}
-                        <div class="p-5">
+                        <div class="p-5 {{ $job->is_closed ? 'opacity-75' : '' }}">
                             <h3
                                 class="text-lg font-bold text-gray-900 mb-1 group-hover:text-indigo-600 transition-colors line-clamp-1">
                                 {{ $job->title }}
@@ -119,7 +125,14 @@
                                 </button>
 
                                 @if(Auth::check() && Auth::user()->role === 'chercheur')
-                                    <livewire:apply-job :job="$job" :key="'apply-list-' . $job->id" />
+                                    @if($job->is_closed)
+                                        <button disabled
+                                            class="px-4 py-2 bg-gray-100 text-gray-400 rounded-lg text-sm font-bold cursor-not-allowed">
+                                            Offre clôturée
+                                        </button>
+                                    @else
+                                        <livewire:apply-job :job="$job" :key="'apply-list-' . $job->id" />
+                                    @endif
                                 @endif
                             </div>
                         </div>

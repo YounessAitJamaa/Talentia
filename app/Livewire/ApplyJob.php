@@ -29,6 +29,10 @@ class ApplyJob extends Component
 
     public function openModal()
     {
+        if ($this->job->is_closed) {
+            session()->flash('error', 'Cette offre est clôturée.');
+            return;
+        }
         $this->isOpen = true;
     }
 
@@ -40,6 +44,12 @@ class ApplyJob extends Component
 
     public function submit()
     {
+        if ($this->job->is_closed) {
+            session()->flash('error', 'Cette offre est clôturée.');
+            $this->closeModal();
+            return;
+        }
+
         $this->validate([
             'message' => 'nullable|string',
             'cv' => 'required|file|mimes:pdf,doc,docx|max:2048',
