@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
@@ -37,16 +38,18 @@ class ProfileController extends Controller
 
     public function show($id)
     {
-        $user = User::with([
-            'profile',
-            'education' => function ($q) {
-                $q->orderBy('start_date', 'desc');
-            },
-            'experiences' => function ($q) {
-                $q->orderBy('start_date', 'desc');
-            },
-            'skills'
-        ])->findOrFail($id);
+        $user = Cache::remember("user_profile_{$id}", 86400, function () use ($id) {
+            return User::with([
+                'profile',
+                'education' => function ($q) {
+                    $q->orderBy('start_date', 'desc');
+                },
+                'experiences' => function ($q) {
+                    $q->orderBy('start_date', 'desc');
+                },
+                'skills'
+            ])->findOrFail($id);
+        });
 
         $status = $this->friendshipStatus($user->id);
 
@@ -91,6 +94,8 @@ class ProfileController extends Controller
             ['user_id' => $user->id],
             $profileData
         );
+
+        Cache::forget("user_profile_{$user->id}");
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }

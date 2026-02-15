@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 
 class Education extends Model
 {
@@ -23,5 +24,11 @@ class Education extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    protected static function booted()
+    {
+        static::saved(fn($model) => Cache::forget("user_profile_{$model->user_id}"));
+        static::deleted(fn($model) => Cache::forget("user_profile_{$model->user_id}"));
     }
 }
