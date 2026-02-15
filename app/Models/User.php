@@ -39,6 +39,14 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    protected $casts = [
+        'premium_starts_at' => 'datetime',
+        'premium_ends_at' => 'datetime',
+        'premium_reminder_sent_at' => 'datetime',
+        'hasPremium' => 'boolean',
+    ];
+
+
     /**
      * Get the attributes that should be cast.
      *
