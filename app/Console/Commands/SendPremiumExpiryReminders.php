@@ -28,7 +28,6 @@ class SendPremiumExpiryReminders extends Command
                     $user->notify(new PremiumExpiringSoonNotification($user->premium_ends_at));
 
 
-
                     // marquer comme envoyé (évite spam)
                     $user->forceFill([
                         'premium_reminder_sent_at' => now(),

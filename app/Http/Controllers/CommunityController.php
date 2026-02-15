@@ -13,18 +13,12 @@ class CommunityController extends Controller
     public function index(Request $request)
     {
         $q = trim((string) $request->query('q', ''));
-        $page = $request->get('page', 1);
-        $cacheKey = "community_users_q_{$q}_page_{$page}";
-
-        $users = Cache::remember($cacheKey, 3600, function () use ($q) {
-            return User::with('profile')
-                ->whereKeyNot(Auth::user()->id)
-                ->when($q !== '', fn($query) => $query->where('name', 'like', "%{$q}%"))
-                ->latest()
-                ->paginate(12);
-        });
-
-        $users->withQueryString();
+        $users = User::with('profile')
+            ->whereKeyNot(Auth::user()->id)
+            ->when($q !== '', fn($query) => $query->where('name', 'like', "%{$q}%"))
+            ->latest()
+            ->paginate(12)
+            ->withQueryString();
 
         $authId = Auth::id();
 
