@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Navigation;
 
+use App\Models\Application;
 use Livewire\Component;
 use App\Models\Friendship;
 use Illuminate\Support\Facades\Auth;
@@ -14,7 +15,7 @@ class PendingRequestsCount extends Component
             ->where('status', 'pending')
             ->count();
 
-        $unreadApplications = \App\Models\Application::where('user_id', Auth::id())
+        $unreadApplications = Application::where('user_id', Auth::id())
             ->whereIn('status', ['accepted', 'refused'])
             ->where('is_seen', false)
             ->count();

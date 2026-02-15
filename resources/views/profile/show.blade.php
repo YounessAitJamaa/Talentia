@@ -109,6 +109,80 @@
                         </p>
                     </div>
 
+                    {{-- Experiences --}}
+                    <div class="bg-white border border-slate-200 rounded-lg p-5">
+                        <div class="flex items-center gap-2 mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-slate-900"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                            <h3 class="text-sm font-extrabold text-slate-900">Expérience professionnelle</h3>
+                        </div>
+                        <div class="space-y-6">
+                            @forelse($user->experiences as $exp)
+                                <div class="flex gap-4">
+                                    <div class="shrink-0 w-12 h-12 bg-slate-50 border border-slate-100 rounded flex items-center justify-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-slate-400"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h4 class="text-sm font-bold text-slate-900">{{ $exp->position }}</h4>
+                                        <p class="text-sm text-slate-700">{{ $exp->company }}</p>
+                                        <p class="text-xs text-slate-500 mt-1 uppercase tracking-tight font-medium">
+                                            {{ $exp->start_date?->format('M Y') ?? '—' }} – 
+                                            {{ $exp->end_date ? $exp->end_date->format('M Y') : 'Présent' }}
+                                        </p>
+                                        @if($exp->description)
+                                            <p class="mt-2 text-sm text-slate-600 leading-relaxed">{{ $exp->description }}</p>
+                                        @endif
+                                    </div>
+                                </div>
+                            @empty
+                                <p class="text-sm text-slate-500 italic">Aucune expérience renseignée.</p>
+                            @endforelse
+                        </div>
+                    </div>
+
+                    {{-- Formations --}}
+                    <div class="bg-white border border-slate-200 rounded-lg p-5">
+                        <div class="flex items-center gap-2 mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-slate-900"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15a2.5 2.5 0 0 1 2.5-2.5Z"/><path d="M8 6h10"/><path d="M8 10h10"/><path d="M8 14h10"/></svg>
+                            <h3 class="text-sm font-extrabold text-slate-900">Formations</h3>
+                        </div>
+                        <div class="space-y-6">
+                            @forelse($user->education as $edu)
+                                <div class="flex gap-4">
+                                    <div class="shrink-0 w-12 h-12 bg-slate-50 border border-slate-100 rounded flex items-center justify-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-slate-400"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h4 class="text-sm font-bold text-slate-900">{{ $edu->school }}</h4>
+                                        <p class="text-sm text-slate-700">{{ $edu->degree }} • {{ $edu->field_of_study }}</p>
+                                        <p class="text-xs text-slate-500 mt-1 uppercase tracking-tight font-medium">
+                                            {{ $edu->start_date?->format('Y') ?? '—' }} – 
+                                            {{ $edu->end_date ? $edu->end_date->format('Y') : 'Présent' }}
+                                        </p>
+                                    </div>
+                                </div>
+                            @empty
+                                <p class="text-sm text-slate-500 italic">Aucune formation renseignée.</p>
+                            @endforelse
+                        </div>
+                    </div>
+
+                    {{-- Skills --}}
+                    <div class="bg-white border border-slate-200 rounded-lg p-5">
+                        <div class="flex items-center gap-2 mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-slate-900"><path d="M6 16.5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16H8a2 2 0 0 1-2-2.5Z"/><path d="m9 10 2 2 4-4"/></svg>
+                            <h3 class="text-sm font-extrabold text-slate-900">Compétences</h3>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            @forelse($user->skills as $skill)
+                                <span class="px-3 py-1 bg-slate-100 text-slate-700 text-sm font-medium rounded-full border border-slate-200">
+                                    {{ $skill->name }}
+                                </span>
+                            @empty
+                                <p class="text-sm text-slate-500 italic">Aucune compétence renseignée.</p>
+                            @endforelse
+                        </div>
+                    </div>
+
                     {{-- Add more sections later (Experience / Skills / Projects) --}}
                     <div class="bg-white border border-slate-200 rounded-lg p-5">
                         <h3 class="text-sm font-extrabold text-slate-900">Informations</h3>
