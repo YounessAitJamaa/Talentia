@@ -11,6 +11,8 @@ class Application extends Model
         'job_id',
         'message',
         'cv_path',
+        'status',
+        'is_seen',
     ];
 
     public function user()

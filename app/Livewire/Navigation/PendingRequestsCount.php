@@ -10,12 +10,17 @@ class PendingRequestsCount extends Component
 {
     public function render()
     {
-        $pendingCount = Friendship::where('friend_id', Auth::id())
+        $pendingRequests = Friendship::where('friend_id', Auth::id())
             ->where('status', 'pending')
             ->count();
 
+        $unreadApplications = \App\Models\Application::where('user_id', Auth::id())
+            ->whereIn('status', ['accepted', 'refused'])
+            ->where('is_seen', false)
+            ->count();
+
         return view('livewire.navigation.pending-requests-count', [
-            'pendingCount' => $pendingCount
+            'pendingCount' => $pendingRequests + $unreadApplications
         ]);
     }
 }

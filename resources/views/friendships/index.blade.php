@@ -52,7 +52,8 @@
                                                             href="{{ route('profile.show', $invite->sender->id) }}">{{ $invite->sender->name }}</a>
                                                     </h3>
                                                     <p class="text-sm text-gray-600">
-                                                        {{ $invite->sender->profile->specialty ?? 'Talent' }}</p>
+                                                        {{ $invite->sender->profile->specialty ?? 'Talent' }}
+                                                    </p>
                                                     <div class="mt-2 flex items-center text-xs text-gray-500">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
                                                             viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -118,9 +119,76 @@
                                 </div>
                             @endforelse
                         </div>
+                        {{-- JOB APPLICATION UPDATES --}}
+                        @if($jobUpdates->isNotEmpty())
+                            <div class="mt-8 bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                                <div class="p-6 border-b border-gray-200 bg-gray-50/50">
+                                    <div class="flex items-center gap-3">
+                                        <div class="h-10 w-10 bg-indigo-100 rounded-full flex items-center justify-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round" class="text-indigo-600">
+                                                <rect width="20" height="14" x="2" y="7" rx="2" ry="2" />
+                                                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <h2 class="text-xl font-semibold text-gray-900">Mises à jour de candidatures
+                                            </h2>
+                                            <p class="text-sm text-gray-500">Décisions récentes sur vos offres postulées</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="divide-y divide-gray-200">
+                                    @foreach($jobUpdates as $update)
+                                        <div class="p-6 hover:bg-gray-50 transition-colors">
+                                            <div class="flex items-center justify-between gap-4">
+                                                <div class="flex items-center gap-4">
+                                                    <div
+                                                        class="h-12 w-12 rounded-lg bg-gray-100 flex items-center justify-center border border-gray-200 overflow-hidden">
+                                                        @if($update->job->image)
+                                                            <img src="{{ asset('storage/' . $update->job->image) }}"
+                                                                class="h-full w-full object-cover">
+                                                        @else
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                                class="text-gray-400">
+                                                                <rect width="20" height="14" x="2" y="7" rx="2" ry="2" />
+                                                                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+                                                            </svg>
+                                                        @endif
+                                                    </div>
+                                                    <div>
+                                                        <h3 class="font-semibold text-gray-900">{{ $update->job->title }}</h3>
+                                                        <p class="text-sm text-gray-500">{{ $update->job->company }}</p>
+                                                    </div>
+                                                </div>
+
+                                                <div class="flex flex-col items-end gap-1 text-right">
+                                                    @if($update->status === 'accepted')
+                                                        <span
+                                                            class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-green-100 text-green-800">
+                                                            Candidature Acceptée
+                                                        </span>
+                                                        <p class="text-xs text-gray-400 mt-1">Le recruteur vous contactera bientôt.
+                                                        </p>
+                                                    @else
+                                                        <span
+                                                            class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-red-100 text-red-800">
+                                                            Candidature Refusée
+                                                        </span>
+                                                        <p class="text-xs text-gray-400 mt-1">Bonne chance pour vos prochaines
+                                                            recherches.</p>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
                     </div>
                 </div>
-            </main>
-        </div>
-    </div>
 </x-app-layout>

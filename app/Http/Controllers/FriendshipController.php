@@ -19,7 +19,19 @@ class FriendshipController extends Controller
             ->with('sender.profile')
             ->get();
 
-        return view('friendships.index', compact('invitations'));
+        $jobUpdates = \App\Models\Application::where('user_id', Auth::id())
+            ->whereIn('status', ['accepted', 'refused'])
+            ->with('job')
+            ->latest()
+            ->get();
+
+        // Mark as seen
+        \App\Models\Application::where('user_id', Auth::id())
+            ->where('is_seen', false)
+            ->whereIn('status', ['accepted', 'refused'])
+            ->update(['is_seen' => true]);
+
+        return view('friendships.index', compact('invitations', 'jobUpdates'));
     }
 
     // public function showFriendsList()
