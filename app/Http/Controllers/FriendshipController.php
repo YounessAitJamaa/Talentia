@@ -85,6 +85,7 @@ class FriendshipController extends Controller
             'status' => 'pending',
         ]);
 
+        event(new FriendRequestSent(auth()->user(), $friendId));
         return back()->with('status', 'Demande de connexion envoyée !');
     }
 

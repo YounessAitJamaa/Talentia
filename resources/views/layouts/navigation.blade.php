@@ -62,6 +62,7 @@
                                 stroke-linejoin="round" class="h-6 w-6 transition-transform group-hover:scale-110">
                                 <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path>
                             </svg>
+                            <livewire:navigation.unread-messages-count />
                         </div>
                         <span class="text-[10px] text-center uppercase tracking-wider">Messages</span>
                     </a>
@@ -210,8 +211,9 @@
                 Communauté
             </a>
             <a href="{{ route('messages.show') }}"
-                class="block px-4 py-3 rounded-xl text-base font-medium {{ request()->routeIs('messages.*') ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-50' }}">
+                class="block px-4 py-3 rounded-xl text-base font-medium {{ request()->routeIs('messages.*') ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-50' }} flex items-center justify-between">
                 Messages
+                <livewire:navigation.unread-messages-count />
             </a>
             <a href="{{ route('friendships.index') }}"
                 class="block px-4 py-3 rounded-xl text-base font-medium {{ request()->routeIs('friendships.*') ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-50' }}">

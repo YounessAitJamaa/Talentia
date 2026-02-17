@@ -55,5 +55,18 @@
                 {{ __('login With Google') }}
                 </a>
             </x-primary-button>
+
+            <div class="mt-6 text-center">
+    <span class="text-sm text-gray-600">
+        Vous n’avez pas encore de compte ?
+    </span>
+
+    <a
+        href="{{ route('register') }}"
+        class="ms-1 text-sm font-semibold text-indigo-600 hover:text-indigo-700 underline"
+    >
+        Créer un compte
+    </a>
+</div>
     </div>
 </x-guest-layout>

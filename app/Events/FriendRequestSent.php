@@ -37,9 +37,9 @@ class FriendRequestSent implements ShouldBroadcastNow
         return new Channel('user.' . $this->receiverId);
     }
 
-    // public function broadcastAs()
-    // {
-    //     return 'friend.request.sent';
-    // }
+    public function broadcastAs()
+    {
+        return 'friend.request.sent';
+    }
 
 }

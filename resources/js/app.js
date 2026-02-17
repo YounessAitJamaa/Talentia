@@ -14,6 +14,13 @@ if (userId && window.Echo) {
         .error((error) => {
             console.log('Error subscribing to private channel:', error);
         });
+
+    // Listen for friend request notifications on a public channel
+    window.Echo.channel(`user.${userId}`)
+        .listen('.friend.request.sent', (e) => {
+            console.log('Friend request received:', e);
+            showNotification(e.sender.name + " sent you a friend request!");
+        });
 }
 
 const addMessage = (message) => {
@@ -78,4 +85,31 @@ window.Echo.channel('user-status')
         console.log('Status updated event received:', e);
         applyStatus(String(e.userId), e.status);
     });
+
+function showNotification(message) {
+    let container = document.getElementById('notification-container');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = 'notification-container';
+        container.className = 'fixed top-5 right-5 z-50 space-y-3';
+        document.body.appendChild(container);
+    }
+    const notification = document.createElement('div');
+    notification.className = 'bg-white shadow-xl border border-gray-200 rounded-lg px-4 py-3 flex items-start gap-3 animate-slide-in';
+    notification.style.maxWidth = '360px';
+    notification.innerHTML = `
+        <div class="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-white font-bold shrink-0">
+            +
+        </div>
+        <div class="text-sm font-semibold text-gray-800">
+            ${message}
+        </div>
+    `;
+    container.appendChild(notification);
+    setTimeout(() => {
+        notification.style.opacity = '0';
+        notification.style.transition = 'opacity 0.5s ease';
+        setTimeout(() => notification.remove(), 500);
+    }, 5000);
+}
 

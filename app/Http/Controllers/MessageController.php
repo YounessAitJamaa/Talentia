@@ -40,6 +40,12 @@ class MessageController extends Controller
         }
 
         if ($receiver) {
+            // Mark messages from this receiver as read
+            Message::where('sender_id', $receiver->id)
+                ->where('receiver_id', $user->id)
+                ->where('is_read', false)
+                ->update(['is_read' => true]);
+
             $messages = Message::query()
                 ->where(function ($query) use ($receiver, $user) {
                     $query->where('sender_id', $user->id)

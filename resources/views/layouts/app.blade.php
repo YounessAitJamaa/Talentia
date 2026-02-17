@@ -37,6 +37,7 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    
 </head>
 
 <body class="font-sans antialiased">
@@ -57,40 +58,32 @@
             {{ $slot }}
         </main>
 
+        {{-- Flash message popup --}}
+        @if (session('status'))
+            <div id="flash-status"
+                 class="fixed top-5 right-5 z-50 bg-white shadow-xl border border-green-200 rounded-lg px-5 py-3 flex items-center gap-3 animate-slide-in"
+                 style="max-width: 360px;">
+                <div class="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center text-white font-bold shrink-0">
+                    ✓
+                </div>
+                <div class="text-sm font-semibold text-gray-800">
+                    {{ session('status') }}
+                </div>
+            </div>
+            <script>
+                setTimeout(() => {
+                    const el = document.getElementById('flash-status');
+                    if (el) {
+                        el.style.opacity = '0';
+                        setTimeout(() => el.remove(), 500);
+                    }
+                }, 4000);
+            </script>
+        @endif
+
         <div id="notification-container" class="fixed top-5 right-5 z-50 space-y-3"></div>
 
-        @auth
-            <script>
-                document.addEventListener("DOMContentLoaded", function () {
-                    if (window.Echo) {
-                        window.Echo.channel('user.{{ auth()->id() }}')
-                            .listen('FriendRequestSent', (e) => {
-                                showNotification(e.sender.name + " sent you a friend request!");
-                            });
-                    }
-                });
 
-                function showNotification(message) {
-                    const container = document.getElementById('notification-container');
-                    const notification = document.createElement('div');
-                    notification.className = "bg-white shadow-xl border border-gray-200 rounded-lg px-4 py-3 flex items-start gap-3 animate-slide-in";
-                    notification.innerHTML = `
-                        <div class="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-white font-bold">
-                            +
-                        </div>
-                        <div class="text-sm font-semibold text-gray-800">
-                            ${message}
-                        </div>
-                    `;
-                    container.appendChild(notification);
-                    // Remove after 5 seconds
-                    setTimeout(() => {
-                        notification.classList.add("opacity-0");
-                        setTimeout(() => notification.remove(), 500);
-                    }, 5000);
-                }
-            </script>
-        @endauth
     </div>
 </body>
 
